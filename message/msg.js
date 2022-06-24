@@ -474,7 +474,6 @@ if (isCmd && msgFilter.isFiltered(from) && !isGroup && !itsMe && !isOwner )
 
 //ANTI SPAM GROUP CHAT     
 if (isCmd && msgFilter.isFiltered(from) && isGroup && !itsMe && !isOwner) 
-
 if (isCmd && !isOwner) msgFilter.addFilter(from)
 
 
