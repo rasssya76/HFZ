@@ -1,5 +1,5 @@
 global.language = "id"
-global.nomerOwner ="6289605393009"
+global.nomerOwner ="6281295460856"
 global.nomerOwner2 = "6289605393009"
 global.runWith = "Replit"
 global.ownerName = "HFZ"
