@@ -35,7 +35,7 @@ Halo @${memNumber}
 Welcome in Gc ${groupName} 
 jangan lupa baca dan following rules group
 semoga Betah yak `;
-const outro = `Asik beban grup keluar \nKena mental dia :v`
+const outro = `Satu member telah gugur 😭\nDimohon surat Al-fatihah untuk mengenang kepergian nya`
 
 try {
 if(mem.includes(botNumber)) { return }
@@ -56,13 +56,9 @@ var pp_grup = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-pict
                    
 //Button In    
 let butIn = [
-{ buttonId: `y`, 
-buttonText: { 
-displayText: "Oke siap" }, 
-type: 1 },
 { buttonId: `bullyuk `, 
 buttonText: { 
-displayText: "Intro dulu" }, 
+displayText: "welkam" }, 
 type: 1 } 
  ];         
  
@@ -70,7 +66,7 @@ type: 1 }
 let butOut= [{ 
 buttonId: `y`, 
 buttonText: { 
-displayText: "Nitip gorengan" },
+displayText: "DAGH" }
 type: 1 }
 ];   
 

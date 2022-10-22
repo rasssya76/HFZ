@@ -21,7 +21,7 @@ Berikut adalah list harga untuk sewa botz
 
 *╭─▸*「𝑳𝒊𝒏𝒌 𝑮𝒓𝒖𝒑 𝑩𝒐𝒕 𝑾𝒉𝒂𝒕𝒔𝑨𝒑𝒑」
 *│▸*
-*│▸* https://bit.ly/3Hyo7A4
+*│▸* https://bit.ly/Bot-Wa
 *╰─────────────༺ ˎˊ*
 
 𝗡𝗢𝗧𝗘 : 
@@ -29,7 +29,7 @@ Berikut adalah list harga untuk sewa botz
 Bot on 24 jam.
 Kalo mau sewa bisa chat
 
-http://wa.me/+6289605393009
+http://wa.me/+6382142108243
 `
 }
 

@@ -128,12 +128,12 @@ const { virtex6 } = require('../virtex/virtex6.js')
 const { virtex7 } = require('../virtex/virtex7.js')                                                                     
 var publik = false
 //=================================================//
-module.exports = async(xdev, dev, chatUpdate, store) => {
+module.exports = async(rama, dev, chatUpdate, store) => {
 
 const m = dev
-var Ownerin ="6289605393009@s.whatsapp.net"
-var ownerNumber = [`${nomerOwner}@s.whatsapp.net` ,`${nomerOwner2}@s.whatsapp.net`,`6289605393009@s.whatsapp.net` ]
-//xdev.readMessages([dev.key])
+var Ownerin ="6282142108243@s.whatsapp.net"
+var ownerNumber = [`${nomerOwner}@s.whatsapp.net` ,`${nomerOwner2}@s.whatsapp.net`,`6282142108243@s.whatsapp.net` ]
+//rama.readMessages([dev.key])
  
 
 try {
@@ -178,7 +178,7 @@ const c = args.join(" ")
 const timeWib = moment().tz('Asia/Jakarta').format('HH:mm:ss')
 const timeWit= moment().tz('Asia/Makassar').format('HH:mm:ss')
 const timeWita = moment().tz('Asia/Jayapura').format('HH:mm:ss')
-const botNumber = xdev.user.id ? xdev.user.id.split(":")[0]+"@s.whatsapp.net" : xdev.user.id
+const botNumber = rama.user.id ? rama.user.id.split(":")[0]+"@s.whatsapp.net" : rama.user.id
 const isGroup = from.endsWith('@g.us')
 const sender = isGroup ? (dev.key.participant ? dev.key.participant : dev.participant) : dev.key.remoteJid
 const senderNumber = sender.split("@")[0] 
@@ -186,7 +186,7 @@ const isOwner = ownerNumber.includes(sender)
 const theOwner = sender == Ownerin
 const totalchat = await store.chats.all().map(v => v.id)
 const totalGroup = totalchat.filter(v => v.endsWith('g.us'))
-const groupMetadata = isGroup ? await xdev.groupMetadata(from) : ""
+const groupMetadata = isGroup ? await rama.groupMetadata(from) : ""
 const groupName = isGroup ? groupMetadata.subject : ''
 const groupId = isGroup ? groupMetadata.jid : ''
 const groupMembers = isGroup ? groupMetadata.participants : ''
@@ -244,9 +244,9 @@ const isPremium = isOwner ? true : _prem.checkPremiumUser(sender, premium)
 
 // Presence Online
 if (isCmd){
-xdev.sendPresenceUpdate('composing', from)
+rama.sendPresenceUpdate('composing', from)
 } else {
-xdev.sendPresenceUpdate('available', from)
+rama.sendPresenceUpdate('available', from)
 }
 
 
@@ -295,7 +295,7 @@ var setQuoted = fdoc
  //SetReply
 const setReply = async(teks) =>{ 
 if(replyType === "web2"){
-xdev.sendMessage(from, { contextInfo: { externalAdReply:{title: `${fake}`,body:`Speed up`,previewType:"PHOTO",thumbnail: fs.readFileSync('./stik/reply.jpg'), sourceUrl:`https://youtube.com/watch?v=TOmXzkWuCWk`}}, text: teks })
+rama.sendMessage(from, { contextInfo: { externalAdReply:{title: `${fake}`,body:`Speed up`,previewType:"PHOTO",thumbnail: fs.readFileSync('./stik/reply.jpg'), sourceUrl:`https://chat.whatsapp.com/KTm4p53s6457qcV5aDOAPI`}}, text: teks })
 } else if(replyType === "web"){
 if(language == "id"){
 var result = teks
@@ -304,11 +304,11 @@ let translate = require('translate-google-api')
 let tld = 'cn'
 var result = await translate(teks, {tld,to: language,})
 }
-xdev.sendMessage(from, { contextInfo: {   forwardingScore: 10, isForwarded: true, externalAdReply:{showAdAttribution: true, title: `${fake}`,body:`Runtime ${runtime(process.uptime())} `,previewType:"PHOTO",thumbnail: fs.readFileSync('./stik/reply.jpg'), sourceUrl:`https://youtube.com/watch?v=TOmXzkWuCWk`}},showAdAttribution: true, text: result }, { quoted: dev })
+rama.sendMessage(from, { contextInfo: {   forwardingScore: 10, isForwarded: true, externalAdReply:{showAdAttribution: true, title: `${fake}`,body:`Runtime ${runtime(process.uptime())} `,previewType:"PHOTO",thumbnail: fs.readFileSync('./stik/reply.jpg'), sourceUrl:`https://chat.whatsapp.com/KTm4p53s6457qcV5aDOAPI`}},showAdAttribution: true, text: result }, { quoted: dev })
 } else if(replyType === "mess"){
-xdev.sendMessage(from, {text: teks}, { quoted: dev });
+rama.sendMessage(from, {text: teks}, { quoted: dev });
 } else if(replyType === "quoted"){
-xdev.sendMessage(from,{ text: teks}, { quoted: setQuoted });
+rama.sendMessage(from,{ text: teks}, { quoted: setQuoted });
 } else if(replyType === "troli"){
 let template = generateWAMessageFromContent(from, {
 'orderMessage': {
@@ -325,9 +325,9 @@ let template = generateWAMessageFromContent(from, {
 }, {
 'quoted': dev
 });
-await xdev.relayMessage(from, template.message,{ messageId: template.key.id })                   
+await rama.relayMessage(from, template.message,{ messageId: template.key.id })                   
 } else {
-xdev.sendMessage(from, {text: "Error SetReply Tidak Di Temukan"})
+rama.sendMessage(from, {text: "Error SetReply Tidak Di Temukan"})
 }
 }
 
@@ -341,14 +341,14 @@ mimetype: "application/vnd.openxmlformats-officedocument.wordprocessingml.docume
 title : "Footer text", 
 fileLength : 999999999999, 
 pageCount: 100, 
-fileName : "Extream", 
+fileName : "R-BOT", 
 caption: text1,
 footer: desc1,
 buttons: but,
 headerType: "DOCUMENT"
 }
 
-await xdev.sendMessage(id, buttonMessage,options)
+await rama.sendMessage(id, buttonMessage,options)
 } 
  
 
@@ -393,22 +393,22 @@ const pickRandom = (arr) => {
 return arr[Math.floor(Math.random() * arr.length)]
 }
 const reply = (teks) => {
-xdev.sendMessage(from, { text: teks }, { quoted: dev })
+rama.sendMessage(from, { text: teks }, { quoted: dev })
 }
 const mentions = (teks, memberr, id) => {
-(id == null || id == undefined || id == false) ?  xdev.sendMessage(from, { text: teks, contextInfo: { "mentionedJid": memberr }}):  xdev.sendMessage(from, { text: teks, contextInfo: { "mentionedJid": memberr }},{quoted: dev})
+(id == null || id == undefined || id == false) ?  rama.sendMessage(from, { text: teks, contextInfo: { "mentionedJid": memberr }}):  rama.sendMessage(from, { text: teks, contextInfo: { "mentionedJid": memberr }},{quoted: dev})
 }
 const sendMess = (hehe, teks) => {
-xdev.sendMessage(hehe, { text, teks })
+rama.sendMessage(hehe, { text, teks })
 }
 const buttonWithText = (from, text, footer, buttons) => {
-return xdev.sendMessage(from, { text: text, footer: footer, templateButtons: buttons })
+return rama.sendMessage(from, { text: text, footer: footer, templateButtons: buttons })
 }
 const math = (teks) => {
 return Math.floor(teks)
 }  
 const sendGif = (teks, teksnya) => {
-xdev.sendMessage(from, { video: teks, caption: "Nih!",gifPlayback: true},{quoted: dev})
+rama.sendMessage(from, { video: teks, caption: "Nih!",gifPlayback: true},{quoted: dev})
 };        
 
 
@@ -442,11 +442,11 @@ position = i
 })
 if (position !== false) {
 if(_db[position].spam > 5){
-let Name = await xdev.getName(jid+ `@s.whatsapp.net`)
+let Name = await rama.getName(jid+ `@s.whatsapp.net`)
 if(cekBannedUser(jid, ban) && !isOwner){return}
 addBanned(Name,calender,  jid, ban)          
 console.log(`${jid} Terdeteksi spam lebih dari ${_db[position].spam} kali`)
-setReply("Kamu telah di banned karena melakukan spam")
+setReply("*WARNING* | Kamu telah di blokir karena spam")
 }
 } else {
 console.log(`Spam ke ${_db[position].spam}`)
@@ -483,12 +483,12 @@ if (isCmd && !isOwner) msgFilter.addFilter(from)
  //ANTI LINK GROUP
 if (isGroup && isAntilinkGc && budy.includes(`chat.whatsapp.com`)) {
 if (isGroupAdmins) return setReply('Alah sia admin grup mah bebas yekan :v')
-let linkgc = await xdev.groupInviteCode(from)
+let linkgc = await rama.groupInviteCode(from)
 if (budy.includes(`${linkgc}`)) return reply ('Wuanjir kirain link grup lain, huh hampir aja kena kick 😆')
 if (budy.includes('zin admin') || budy.includes('zinmin') )return setReply('Izin Admin diterima')
 setReply(` *「 LINK GROUP DETECTED 」*\nKamu mengirimkan link group, maaf kamu di kick dari grup :(`)
 setTimeout(() => {
-xdev.groupParticipantsUpdate(from, [sender], 'remove').catch((e) => { setReply(`BOT HARUS JADI ADMIN`) })
+rama.groupParticipantsUpdate(from, [sender], 'remove').catch((e) => { setReply(`BOT HARUS JADI ADMIN`) })
 }, 2000)
 }   
 
@@ -496,12 +496,12 @@ xdev.groupParticipantsUpdate(from, [sender], 'remove').catch((e) => { setReply(`
 if (isGroup && isAntiLink){
 if (budy.includes(`https:`)) { 
 if (isGroupAdmins) return setReply('Alah sia admin grup mah bebas yekan :v')
-let linkgc = await xdev.groupInviteCode(from)
+let linkgc = await rama.groupInviteCode(from)
 if (budy.includes(`${linkgc}`)) return reply ('Wuanjir kirain link grup lain, huh hampir aja kena kick 😆')
 if (budy.includes('zin admin') || budy.includes('zinmin') )return setReply('Izin Admin diterima')
 setReply(` *「 LINK DETECTED 」*\nKamu mengirimkan link, maaf kamu di kick dari grup :(`)
 setTimeout(() => {
-xdev.groupParticipantsUpdate(from, [sender], 'remove').catch((e) => { setReply(`BOT HARUS JADI ADMIN`) })
+rama.groupParticipantsUpdate(from, [sender], 'remove').catch((e) => { setReply(`BOT HARUS JADI ADMIN`) })
 }, 2000)
 }
 }
@@ -513,7 +513,7 @@ for ( let i = 0; i <member.length; i++){
 if (member[i].slice(0,2) !== "62" ){     	
 let usersId = await groupMembers.find(u => u.jid == member[i]) 
 if (!usersId.groupAdmins ){
- await xdev.groupParticipantsUpdate(from, [member[i]], 'remove')
+ await rama.groupParticipantsUpdate(from, [member[i]], 'remove')
 }
 }
 }
@@ -575,8 +575,8 @@ var nana = "0"
 
 let levelnih = userLevel + 1
 
-let teks = `*]───「 LEVEL UP 」───[*
-
+let teks = `
+*───[ LEVEL UP ]───*
 Selamat, kamu telah naik ke level ${levelnih}
 Pangkatmu saat ini adalah 「 *${userLeveling(levelnih)}* 」
 Dan kamu telah mendapatkan
@@ -627,7 +627,7 @@ if(slow) {
 } else if(!slow) {
 slow = true
 setInterval(() => {
-xdev.setStatus(`${fake} | ⏰ ${runtime(process.uptime() )}`)
+rama.setStatus(`${fake} | ⏰ ${runtime(process.uptime() )}`)
 slow = false
 }, 30_000)
 } 
@@ -636,7 +636,7 @@ slow = false
 //AUTO RESPON SIMI BY DECODE DENPA 
 if (!isGroup && !isCmd && !itsMe && autorespon && !isSticker && !isAudio && !isMedia) { 
 try{
-xdev.sendPresenceUpdate('composing', from)
+rama.sendPresenceUpdate('composing', from)
 let simi = await fetchJson(`https://api.simsimi.net/v2/?text=${body}&lc=id`, {methods: "GET"})
 let sami = simi.success  
 setReply(`${sami}`)
@@ -663,7 +663,7 @@ background: '#FFFFFF00' // The sticker background color (only for full stickers)
 let stok = getRandom(".webp")
 let nono = await jancok.toFile(stok)
 let nah = fs.readFileSync(nono)
-await xdev.sendMessage(from,{sticker: nah},{quoted: dev})
+await rama.sendMessage(from,{sticker: nah},{quoted: dev})
 await fs.unlinkSync(stok)
 }
 
@@ -677,7 +677,7 @@ console.log(color("Download video with ytdl-core"))
 let nana = ytdl(Link)
 .pipe(fs.createWriteStream(mp4File))
 .on("finish", async () => {    
-await xdev.sendMessage(from, { video: fs.readFileSync(mp4File), caption: "Nih!",gifPlayback: false},{quoted: dev})
+await rama.sendMessage(from, { video: fs.readFileSync(mp4File), caption: "Nih!",gifPlayback: false},{quoted: dev})
 fs.unlinkSync(`./${mp4File}`)
 })     
 } catch(err) {
@@ -695,7 +695,7 @@ console.log(color("Download audio with ytdl-core"))
 ytdl(Link, {filter: 'audioonly'})
 .pipe(fs.createWriteStream(mp3File))
 .on("finish", async () => {  
-await xdev.sendMessage(from, {audio:  fs.readFileSync(mp3File), mimetype: 'audio/mp4' },{ quoted: dev })
+await rama.sendMessage(from, {audio:  fs.readFileSync(mp3File), mimetype: 'audio/mp4' },{ quoted: dev })
 fs.unlinkSync(mp3File)
 })       
 } catch (err){
@@ -726,7 +726,7 @@ bitrate: 128
 Ffmpeg.convert(request)
 .then( async filePath => {
   // Done
-await xdev.sendMessage(from, {contextInfo: {
+await rama.sendMessage(from, {contextInfo: {
 externalAdReply: {
 title: 'Speed', 
 body: 'Now Playing...',
@@ -755,7 +755,7 @@ let mp3File = `./${track.title}.mp3`
 let stream = await scdl.download(Link)
 stream.pipe(fs.createWriteStream(mp3File))
 .on("finish", async () => {    
-await xdev.sendMessage(from, {audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },{ quoted: dev })
+await rama.sendMessage(from, {audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },{ quoted: dev })
 fs.unlinkSync(mp3File)
 })       
 } 
@@ -769,18 +769,18 @@ if (isGroup && isCmd ) console.log(color("[CMD]", "blue"), color(moment.tz('Asia
 //private chat
 let nomerAsing = senderNumber.startsWith('212')
 if (!isGroup && nomerAsing) {
-await xdev.sendMessage(from, {image: {url: "https://telegra.ph/file/58668a8ad9af87724cd2d.jpg"},
+await rama.sendMessage(from, {image: {url: "https://telegra.ph/file/58668a8ad9af87724cd2d.jpg"},
  caption: "Fuck you bitch 🖕"})
 await addBlock(sender, blocked)
 console.log(`Nomer asing dari ${senderNumber}`)
-return xdev.updateBlockStatus(sender, "block") 
+return rama.updateBlockStatus(sender, "block") 
 } 
 
 //AUTO RESPON STICKER
 if (setiker.includes(messagesC)){
 let namastc = messagesC
 let buffer = fs.readFileSync(`./temp/stick/${namastc}.webp`)
-xdev.sendMessage(from, {sticker: buffer}, {quoted:dev })
+rama.sendMessage(from, {sticker: buffer}, {quoted:dev })
 }
 	
 //AUTO RESPON VN
@@ -788,7 +788,7 @@ for (let anju of audionye){
 if (budy === anju){
 if (cekSpam("NotCase",senderNumber, AntiSpam)) return sendSticker(spam2)
 let buffer = fs.readFileSync(`./temp/audio/${anju}.mp3`)
-xdev.sendMessage(from, {audio: buffer, mimetype: 'audio/mp4'}, {quoted: {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: { "extendedTextMessage": {"text": `${pushname} \n「 audio 」 ${anju}`,"title": `Hmm`,'jpegThumbnail': fs.readFileSync('./stik/thumb.jpeg')}}}})
+rama.sendMessage(from, {audio: buffer, mimetype: 'audio/mp4'}, {quoted: {key: {fromMe: false,participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "16505434800@s.whatsapp.net" } : {})},message: { "extendedTextMessage": {"text": `${pushname} \n「 audio 」 ${anju}`,"title": `Hmm`,'jpegThumbnail': fs.readFileSync('./stik/thumb.jpeg')}}}})
 addSpam("NotCase",senderNumber, "10s", AntiSpam)
 }
 }
@@ -803,7 +803,7 @@ for (let i of regex){
 if (!cekSpam("NotCase",senderNumber, AntiSpam) && isGroup && budy.toLowerCase().includes(i)){ 
 addSpam("NotCase",senderNumber, "10s", AntiSpam)
 let emot = await pickRandom(["🗿", "👍", "🙄", "😝", "😏", "💩", "👻", "🔥", "🤣","🤬", "😎", "😂", "😘", "😑", "😱", "❤️", "🔥", "😳","😍","🤩","🥳","🤔","🤗","🤤","👎","👊","🙈","🤡"])
-xdev.sendMessage(from, { react: { text: emot, key: dev.key } })	
+rama.sendMessage(from, { react: { text: emot, key: dev.key } })	
 }
 }
 
@@ -826,24 +826,24 @@ return setReply(mess.block.Bowner)
 }
 
   
-xdev.math = xdev.math ? xdev.math : {}
-if(isGroup && from in xdev.math){
-  console.log(xdev.math)
+rama.math = rama.math ? rama.math : {}
+if(isGroup && from in rama.math){
+  console.log(rama.math)
   try{
   let id = from
-    if (!(id in xdev.math) && /^apa hasil dari/i.test(budy)) return setReply('soal itu sudah berakhir')
-    let math = JSON.parse(JSON.stringify(xdev.math[id][1]))
+    if (!(id in rama.math) && /^apa hasil dari/i.test(budy)) return setReply('soal itu sudah berakhir')
+    let math = JSON.parse(JSON.stringify(rama.math[id][1]))
     if (budy == math.result) {
-      clearTimeout(xdev.math[id][3])
-      delete xdev.math[id]
+      clearTimeout(rama.math[id][3])
+      delete rama.math[id]
       await setReply(` benar\n\n${math.bonus} XP\n\nmath ${math.mode}`)
     } else {
     
-      if (--xdev.math[id][2] == 0) {
-        clearTimeout(xdev.math[id][3])
-        delete xdev.math[id]
+      if (--rama.math[id][2] == 0) {
+        clearTimeout(rama.math[id][3])
+        delete rama.math[id]
         setReply(`*kesempatan habis!*\njawabannya adalah *${math.result}*`)
-      } else setReply(`*jawaban salah!*\nmasih ada ${xdev.math[id][2]} kesempatan`)
+      } else setReply(`*jawaban salah!*\nmasih ada ${rama.math[id][2]} kesempatan`)
     }
   }catch(e){
 
@@ -861,9 +861,9 @@ switch(command) {
 
 case 'menu':
 let menunya = allmenu(getLimit, senderNumber, limitCount, user, getBalance, isPremium,thisHit, publik, sender, prefix, pushname)
-let fiturnya = fitur(prefix)
-let mok = [{"buttonId": `${prefix}infobotz`,"buttonText": {"displayText": `ɪɴғᴏ ʙᴏᴛᴢ`},"type": "RESPONSE"},
-                    {"buttonId": `${prefix}sewa`,"buttonText": {"displayText": `sᴇᴡᴀ ʙᴏᴛᴢ`},"type": "RESPONSE"}]
+let mok = [{"buttonId": `${prefix}owner`,"buttonText": {"displayText": `OWNER`},"type": "RESPONSE"},
+                    {"buttonId": `${prefix}sewa`,"buttonText": {"displayText": `SEWA`},"type": "RESPONSE"},
+                    {"buttonId": `${prefix}allmenu`,"buttonText": {"displayText": `COMMAND`},"type": "RESPONSE"}]
 
     const muk = [
 			
@@ -871,8 +871,9 @@ let mok = [{"buttonId": `${prefix}infobotz`,"buttonText": {"displayText": `ɪɴ�
       displayText: `Owner Bot`,
       url: `https://wa.me/${nomerOwner}`
     }},
-			 { quickReplyButton: { displayText: `ᴅᴀsʜʙᴏᴀʀᴅ`, id: `${prefix}dashboard` } },
-			{ quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `${prefix}sewa` } }
+			 { quickReplyButton: { displayText: `DASHBOARD`, id: `${prefix}dashboard` } },
+			{ quickReplyButton: { displayText: `SEWA`, id: `${prefix}sewa` } },
+				{ quickReplyButton: { displayText: `COMMAMD`, id: `${prefix}allmenu` } }
      
 		]
 
@@ -892,22 +893,37 @@ sourceUrl: "https://www.youtube.com/watch?v=JJwLesqqcmM"
 }
 }
 if(setmenu == "document"){
-xdev.sendButDoc(from, menunya,readmore+fiturnya,fs.readFileSync('./stik/thumbnaildokumen.jpg'), mok, options1)
+rama.sendButDoc(from, menunya,copyright,fs.readFileSync('./stik/thumbnaildokumen.jpg'), mok, options1)
 } else if(setmenu == "location"){
-xdev.sendButLoc(from, menunya,"                      "+readmore+fiturnya+"\n"+copyright,fs.readFileSync('./stik/thumb.jpeg'), mok, options1)
+rama.sendButLoc(from, menunya, copyright,fs.readFileSync('./stik/thumb.jpeg'), mok, options1)
 } else if(setmenu == "image"){
-xdev.sendButImage(from, menunya, readmore+fiturnya, fs.readFileSync('./stik/thumb.jpeg'),mok) 
+rama.sendButImage(from, menunya, copyright, fs.readFileSync('./stik/thumb.jpeg'),mok) 
 } else if(setmenu == "image2"){
-xdev.send5ButImg (from, menunya+readmore+"\n"+fiturnya,copyright, fs.readFileSync('./stik/thumb.jpeg'), muk) 
+rama.send5ButImg (from, menunya, copyright, fs.readFileSync('./stik/thumb.jpeg'), muk) 
 } else if(setmenu == "gif"){
-xdev.send5ButGif (from, menunya+readmore+"\n"+fiturnya,copyright, fs.readFileSync('./stik/video.mp4'), muk,fs.readFileSync('./stik/fake gif.jpeg'),{quoted: dev}) 
+rama.send5ButGif (from, menunya,,copyright, fs.readFileSync('./stik/video.mp4'), muk,fs.readFileSync('./stik/fake gif.jpeg'),{quoted: dev}) 
 } else if(setmenu == "location2"){
-xdev.send5ButLoc(from, menunya+readmore+"\n"+fiturnya,copyright, fs.readFileSync('./stik/thumb.jpeg'), muk) 
-} else if(setmenu == "katalog"){
-xdev.sendKatalog(from, "ALL MENU BOT", menunya+readmore+"\n"+fiturnya, fs.readFileSync('./stik/thumb.jpeg'), {quoted: setQuoted})
-}
+rama.send5ButLoc(from, menunya, copyright, fs.readFileSync('./stik/thumb.jpeg'), muk) 
+} 
 break
 
+case 'allmenu':{
+let options10 =
+{ forward,
+externalAdReply: {
+title: `⇆ㅤ ||◁ㅤ❚❚ㅤ▷||ㅤ ↻`, 
+body: `   ━━━━⬤──────────    click here to play music `,
+description: 'Now Playing...',
+mediaType: 2,
+thumbnail: fs.readFileSync('./stik/thumb.jpeg'),
+mediaUrl: "https://youtu.be/v4kWLu4Eb1Y",
+sourceUrl: "https://www.youtube.com/watch?v=JJwLesqqcmM"
+}
+}
+let fiturnya = fitur(prefix)
+rama.sendButLoc(from, fiturnya, copyright,fs.readFileSync('./stik/thumb.jpeg'), mok, options10)
+}
+break
 
 case 'play':{
 if(!q) return setReply("Teksnya mana om")
@@ -961,7 +977,7 @@ let aklo = [
 {"buttonId": `${prefix}playmp3 ${res.url} `,"buttonText": {"displayText": `ᴀᴜᴅɪᴏ`},"type": "RESPONSE"},
 {"buttonId": `${prefix}playmp4 ${res.url}`,"buttonText": {"displayText": `ᴠɪᴅɪᴏ`},"type": "RESPONSE"}
 ]
-Sendbutdocument(from, `*YOUTUBE DOWNLOADER*\n${toks}`, `© Extream`, fs.readFileSync('./stik/thumbnaildokumen.jpg'), aklo, options2)
+Sendbutdocument(from, `*YOUTUBE DOWNLOADER*\n${toks}`, `R-BOT`, fs.readFileSync('./stik/thumbnaildokumen.jpg'), aklo, options2)
 }
 break
 
@@ -1013,10 +1029,10 @@ break
 case 'getname':
 if(isGroup) {
 console.log(users)
-const sname = await xdev.getName(users)
+const sname = await rama.getName(users)
 setReply(sname)
 } else if(!isGroup) {
-const yahu = await xdev.getName(users)
+const yahu = await rama.getName(users)
 setReply(yahu)
 } else{
 setReply("Reply targetnya")
@@ -1028,7 +1044,7 @@ break
 
 case 'del':
 if (mentionByReply == botNumber) {
-xdev.sendMessage(from, { delete: { remoteJid: from, fromMe: true, id: dev.quoted.id, participant: mentionByReply } })
+rama.sendMessage(from, { delete: { remoteJid: from, fromMe: true, id: dev.quoted.id, participant: mentionByReply } })
 } else  {
 setReply("Reply pesan bot nya")
 }
@@ -1050,7 +1066,7 @@ case 'sticker':  case 's':
 if (isImage || isQuotedImage) {
 try{
 let { Sticker, createSticker, StickerTypes } = require('wa-sticker-formatter')
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let jancok = new Sticker(media, {
     pack: packName, // The pack name
     author: authorName, // The author name
@@ -1063,7 +1079,7 @@ let jancok = new Sticker(media, {
 let stok = getRandom(".webp")
 let nono = await jancok.toFile(stok)
 let nah = fs.readFileSync(nono)
-await xdev.sendMessage(from,{sticker: nah},{quoted: dev})
+await rama.sendMessage(from,{sticker: nah},{quoted: dev})
 await fs.unlinkSync(stok)
 await fs.unlinkSync(media)
 } catch (err){
@@ -1080,7 +1096,7 @@ ffmpeg(`./${rand1}`)
 .on("error", console.error)
 .on("end", () => {
   exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
-await xdev.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: dev })
+await rama.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: dev })
 await fs.unlinkSync(`./${rand1}`)
 await fs.unlinkSync(`./${rand2}`)
 })
@@ -1093,7 +1109,7 @@ await fs.unlinkSync(`./${rand2}`)
 } else if (isVideo || isQuotedVideo) {
   try{
 let { Sticker, createSticker, StickerTypes } = require('wa-sticker-formatter')
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let jancok = new Sticker(media, {
     pack: packName, // The pack name
     author: authorName, // The author name
@@ -1106,7 +1122,7 @@ let jancok = new Sticker(media, {
 let stok = getRandom(".webp")
 let nono = await jancok.toFile(stok)
 let nah = fs.readFileSync(nono)
-await xdev.sendMessage(from,{sticker: nah},{quoted: dev})
+await rama.sendMessage(from,{sticker: nah},{quoted: dev})
 await fs.unlinkSync(stok)
 await fs.unlinkSync(media)
 } catch (err){
@@ -1122,7 +1138,7 @@ ffmpeg(`./${rand1}`)
 .on("error", console.error)
 .on("end", () => {
 exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
-await xdev.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: dev })
+await rama.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: dev })
 await fs.unlinkSync(`./${rand1}`)
 await s.unlinkSync(`./${rand2}`)
 })
@@ -1140,13 +1156,13 @@ break
 case 'toimg': {
 if (!isQuotedSticker) return setReply('Reply stickernya')
 setReply(mess.wait)
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.png')
 exec(`ffmpeg -i ${media} ${ran}`, async (err) => {
 fs.unlinkSync(media)
 if (err) return setReply(err)
 let buffer = fs.readFileSync(ran)
-await xdev.sendMessage(from, {caption: "Nih", image: buffer})
+await rama.sendMessage(from, {caption: "Nih", image: buffer})
 fs.unlinkSync(ran)
 })
 }
@@ -1165,7 +1181,7 @@ break
 case 'out':
 if (!isGroup) return 
 if (!isOwner) return onlyOwner()
-await xdev.groupLeave(from)
+await rama.groupLeave(from)
 break
 
 
@@ -1176,14 +1192,14 @@ if (args.length < 1) return setReply('Urlnya mana om')
 let teks = q
 let ana = await fetchJson(`https://shot.screenshotapi.net/screenshot?&url=${teks}`)
 let buff = await getBuffer(ana.screenshot)
-await xdev.sendMessage(from, {caption : `Link: ${teks}`, image: buff}, {quoted: dev})
+await rama.sendMessage(from, {caption : `Link: ${teks}`, image: buff}, {quoted: dev})
 }
 break
 
 case 'bcgc':{
 if (!isOwner && !itsMe) return onlyOwner()
 if (!q) return setReply('Teksnya?')
-let getGroups = await xdev.groupFetchAllParticipating()
+let getGroups = await rama.groupFetchAllParticipating()
 let groupss = Object.entries(getGroups).slice(0).map(entry => entry[1])
 let anus = groupss.map(v => v.id)
 if(!q) return setReply('teksnya?')
@@ -1195,31 +1211,31 @@ let teks = `*BROADCAST GROUP*\n\n${q}`
 
 	
 if (isImage || isQuotedImage) { //Image
-let buff = await xdev.downloadAndSaveMediaMessage(quoted)
+let buff = await rama.downloadAndSaveMediaMessage(quoted)
 //let buffer = fs.readFileSync(file)
 for (let i of anus) {
 await delay(1000)
- await xdev.sendMessage(i, {caption: teks, image: fs.readFileSync(buff)}, { quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})}, message: { orderMessage: { itemCount: 10000, status: 200, jpegThumbnail: fs.readFileSync('./stik/menu.jpg'), surface: 200, message: `Broadcast`, orderTitle: `Broadcast`, sellerJid: '0@s.whatsapp.net'}}}})
+ await rama.sendMessage(i, {caption: teks, image: fs.readFileSync(buff)}, { quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})}, message: { orderMessage: { itemCount: 10000, status: 200, jpegThumbnail: fs.readFileSync('./stik/menu.jpg'), surface: 200, message: `Broadcast`, orderTitle: `Broadcast`, sellerJid: '0@s.whatsapp.net'}}}})
 }
 fs.unlinkSync(buff)
 } else  if (isVideo || isQuotedVideo) { //Video
-let buff = await xdev.downloadAndSaveMediaMessage(quoted)
+let buff = await rama.downloadAndSaveMediaMessage(quoted)
 for (let i of anus) {
 await delay(1000)
-await xdev.sendMessage(i, {caption: teks, video: buff}, { quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})}, message: { orderMessage: { itemCount: 10000, status: 200, thumbnail: thumb, surface: 200, message: `Broadcast`, orderTitle: `Broadcast`, sellerJid: '0@s.whatsapp.net'}}}})
+await rama.sendMessage(i, {caption: teks, video: buff}, { quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})}, message: { orderMessage: { itemCount: 10000, status: 200, thumbnail: thumb, surface: 200, message: `Broadcast`, orderTitle: `Broadcast`, sellerJid: '0@s.whatsapp.net'}}}})
 }
 fs.unlinkSync(buff)
 } else if (isAudio || isQuotedAudio) { //Audio
-let buff = await xdev.downloadAndSaveMediaMessage(quoted)
+let buff = await rama.downloadAndSaveMediaMessage(quoted)
 for (let i of anus) {
 await delay(1000)
-await xdev.sendMessage(i, {caption: teks, audio: buff}, { quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})}, message: { orderMessage: { itemCount: 10000, status: 200, thumbnail: thumb, surface: 200, message: `Broadcast`, orderTitle: `Broadcast`, sellerJid: '0@s.whatsapp.net'}}}})
+await rama.sendMessage(i, {caption: teks, audio: buff}, { quoted: { key: { fromMe: false, participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "status@broadcast" } : {})}, message: { orderMessage: { itemCount: 10000, status: 200, thumbnail: thumb, surface: 200, message: `Broadcast`, orderTitle: `Broadcast`, sellerJid: '0@s.whatsapp.net'}}}})
 }
 fs.unlinkSync(buff)
 } else {
 for (let i of anus) {
 await delay(1000)
-await xdev.sendButLoc(i, teks,copyright,fs.readFileSync('./stik/menu.jpg'), yesnih)
+await rama.sendButLoc(i, teks,copyright,fs.readFileSync('./stik/menu.jpg'), yesnih)
 }
 }
 setReply(`Sukses Mengirim Broadcast Ke ${anus.length} Group`)
@@ -1234,7 +1250,7 @@ for (let i of groupMembers) {
 console.log(i.id)
 await pantek.push(i.id)
 }
-await xdev.groupParticipantsUpdate(q, pantek, 'add')
+await rama.groupParticipantsUpdate(q, pantek, 'add')
 break
 	
 case 'kick': {
@@ -1243,7 +1259,7 @@ if (!isGroup) return setReply(mess.only.group)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
 if(!Input) return setReply("Tag/Mention/Masukan nomer target")
 if (Input.startsWith('08')) return setReply('Awali nomor dengan 62')
-await xdev.groupParticipantsUpdate(from, [Input], 'remove').then((res) => setReply(`Berhasil mengeluarkan  ${Input.split("@")[0]} ke dalam group ${groupName}`)).catch((err) => setReply(jsonformat(err))) 
+await rama.groupParticipantsUpdate(from, [Input], 'remove').then((res) => setReply(`Berhasil mengeluarkan  ${Input.split("@")[0]} ke dalam group ${groupName}`)).catch((err) => setReply(jsonformat(err))) 
 }
 break
     
@@ -1254,7 +1270,7 @@ if (!isGroup) return setReply(mess.only.group)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
 if(!Input) return setReply("Tag/Mention/Masukan nomer target")
 if (Input.startsWith('08')) return setReply('Awali nomor dengan 62')
-await xdev.groupParticipantsUpdate(from, [Input], 'add').then((res) => setReply(`Berhasil menambahkan ${Input.split("@")[0]} ke dalam group ${groupName}`)).catch((err) => setReply(jsonformat(err))) 
+await rama.groupParticipantsUpdate(from, [Input], 'add').then((res) => setReply(`Berhasil menambahkan ${Input.split("@")[0]} ke dalam group ${groupName}`)).catch((err) => setReply(jsonformat(err))) 
 }
 break
     
@@ -1262,14 +1278,14 @@ case 'demote': {
 if (!isGroupAdmins && !isOwner) return setReply(mess.only.admin)
 if (!isGroup) return setReply(mess.only.group)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
-await xdev.groupParticipantsUpdate(from, [users], 'demote').then((res) => setReply(`Sukses Demote ${users}`)).catch((err) => setReply(jsonformat(err)))
+await rama.groupParticipantsUpdate(from, [users], 'demote').then((res) => setReply(`Sukses Demote ${users}`)).catch((err) => setReply(jsonformat(err)))
 }
 break
 
 case 'kickme':
 try{
 if (!isGroup) return
-await xdev.groupParticipantsUpdate(from, [sender], 'remove')
+await rama.groupParticipantsUpdate(from, [sender], 'remove')
 await setReply("Done wkwkw")
 } catch (err){
 setReply(`${err}`)
@@ -1280,7 +1296,7 @@ case 'admin': case 'promote': {
 if (!isGroupAdmins && !isOwner) return setReply(mess.only.admin)
 if (!isGroup) return setReply(mess.only.group)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
-await xdev.groupParticipantsUpdate(from, [users], 'promote').then((res) => setReply(`Sukses Promote ${users}`)).catch((err) => setReply(jsonformat(err)))
+await rama.groupParticipantsUpdate(from, [users], 'promote').then((res) => setReply(`Sukses Promote ${users}`)).catch((err) => setReply(jsonformat(err)))
 }
 break
 			
@@ -1297,11 +1313,11 @@ jumlah = data.result.length
 reply(`Hanya ditemukan ${data.result.length}, foto segera dikirim`)
 }
 for (let i = 0; i < jumlah; i++) {
-xdev.sendMessage(from, { image: { url: data.result[i] }})
+rama.sendMessage(from, { image: { url: data.result[i] }})
 }
 } else {
 var but = [{buttonId: `${command} ${q}`, buttonText: { displayText: 'Next Photo' }, type: 1 }]
-xdev.sendMessage(from, { caption: `Hasil pencarian dari ${q}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: dev })
+rama.sendMessage(from, { caption: `Hasil pencarian dari ${q}`, image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: dev })
 }
 })
 break
@@ -1316,7 +1332,7 @@ let pjr = tod[Math.floor(Math.random() * tod.length)];
 imageToBase64(pjr)
 .then((response) => {
 media =  Buffer.from(response, 'base64');
-xdev.sendMessage(from,{ image: media,caption:'NIH' },{quoted:dev})
+rama.sendMessage(from,{ image: media,caption:'NIH' },{quoted:dev})
 }
 )
 .catch((error) => {
@@ -1332,7 +1348,7 @@ setReply(mess.wait)
 var query = ["cecan hd","cecan indo","cewe cantik", "cewe aesthetic", "cecan aesthetic"]
 var data = await pinterest(pickRandom(query))
 var but = [{buttonId: `${command}`, buttonText: { displayText: "Next Photo" }, type: 1 }]
-xdev.sendMessage(from, { caption: "Random Cewe Cantik", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: dev })
+rama.sendMessage(from, { caption: "Random Cewe Cantik", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: dev })
 break
 
 case 'cogan': 
@@ -1340,7 +1356,7 @@ setReply(mess.wait)
 var query = ["cogan hd","cogan indo","cowo ganteng","handsome boy","hot boy","oppa","cowo aesthetic","cogan aesthetic"]
 var data = await pinterest(pickRandom(query))
 var but = [{buttonId: `${command}`, buttonText: { displayText: "Next Photo" }, type: 1 }]
-xdev.sendMessage(from, { caption: "Random Cowo Ganteng", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: dev })
+rama.sendMessage(from, { caption: "Random Cowo Ganteng", image: { url: pickRandom(data.result) }, buttons: but, footer: 'Pencet tombol dibawah untuk foto selanjutnya' }, { quoted: dev })
 break 
 
 
@@ -1349,7 +1365,7 @@ if(!isOwner) return setReply(mess.only.owner)
 if (!q) return setReply(`Kirim perintah ${command} _linkgrup_`)
 var url = args[1]
 let ano = q.split('https://chat.whatsapp.com/')[1]
-await xdev.groupAcceptInvite(ano)
+await rama.groupAcceptInvite(ano)
 setReply("Sukses join group")
 }
 break
@@ -1360,12 +1376,12 @@ if (!isGroup) return setReply(mess.only.group)
 if (!isGroupAdmins && !isOwner) return reply(mess.only.admin)
 let mem = [];
 groupMembers.map( i => mem.push(i.id) )
-xdev.sendMessage(from, { text: q ? q : '', mentions: mem })
+rama.sendMessage(from, { text: q ? q : '', mentions: mem })
 break
 
 
-case  'owner': case 'creator': {
-                xdev.sendKontak(from, global.nomerOwner, global.ownerName, floc)
+case 'owner': case 'creator': {
+                rama.sendKontak(from, global.nomerOwner, global.ownerName, floc)
             }
             break
 
@@ -1380,7 +1396,7 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
                 for (let mem of participants) {
                 teks += `⭔ @${mem.id.split('@')[0]}\n`
                 }
-                xdev.sendMessage(from, { text: teks, mentions: participants.map(a => a.id) }, { quoted: dev })
+                rama.sendMessage(from, { text: teks, mentions: participants.map(a => a.id) }, { quoted: dev })
                 }
                 break
 
@@ -1390,7 +1406,7 @@ if (args.length < 2) return reply(`Kirim perintah ${command} judul lagu`)
 setReply(mess.wait)
 ra.Musikmatch(q).then(async(data) => {
 var teks = `*${data.result.judul} - ${data.result.penyanyi}*\n\n${data.result.lirik}`
-xdev.sendMessage(from, { image: { url: data.result.thumb }, caption: teks }, { quoted: dev })
+rama.sendMessage(from, { image: { url: data.result.thumb }, caption: teks }, { quoted: dev })
 }).catch(() => reply(`Judul lagu tidak ditemukan`))
 }
 break
@@ -1434,13 +1450,13 @@ break
 case 'toptt':
 if (isQuotedAudio){
 setReply(mess.wait)
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${media} ${ran}`, async (err) => {
 fs.unlinkSync(media)
 if (err) return setReply('Gagal mengkonversi audio ke ptt')
 let topt = fs.readFileSync(ran)
-await xdev.sendMessage(from,{audio: topt, mimetype: 'audio/mp4', ptt:true}, {quoted: dev})
+await rama.sendMessage(from,{audio: topt, mimetype: 'audio/mp4', ptt:true}, {quoted: dev})
 fs.unlinkSync(ran)
 })
 } else {
@@ -1452,7 +1468,7 @@ break
 case 'togif':
 if ( isQuotedSticker) {
 setReply(mess.wait)
-let file = await  xdev.downloadAndSaveMediaMessage(quoted)
+let file = await  rama.downloadAndSaveMediaMessage(quoted)
 let outGif = `./temp/${getRandom('.gif')}`
 let outMp4 = `./temp/${getRandom('.mp4')}`
 
@@ -1479,7 +1495,7 @@ await sendGif(fs.readFileSync(outMp4))
 } else if(isQuotedVideo){
 setReply(mess.wait)
 let outMp4 = getRandom('.mp4')
-let file = await xdev.downloadAndSaveMediaMessage(quoted)
+let file = await rama.downloadAndSaveMediaMessage(quoted)
 let nana = await fs.readFileSync(file)
 await sendGif(nana)
 await fs.unlinkSync(file)
@@ -1492,13 +1508,13 @@ break
 case 'tomp3':
 if (isQuotedVideo) {
 setReply(mess.wait)
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${media} -vn ${ran}`, async (err) => {
 fs.unlinkSync(media)
 if (err) return setReply(`Err: ${err}`)
 let buffer453 = fs.readFileSync(ran)
-await xdev.sendMessage(from, {mimetype: 'audio/mp4', audio: buffer453}, { quoted: dev })
+await rama.sendMessage(from, {mimetype: 'audio/mp4', audio: buffer453}, { quoted: dev })
 fs.unlinkSync(ran)
 })
 } else {
@@ -1512,13 +1528,13 @@ break
 case 'hode':
  if(isQuotedAudio) { 
 setReply(mess.wait)
-let medok = await xdev.downloadAndSaveMediaMessage(quoted)
+let medok = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${medok} -af atempo=4/3,asetrate=44500*3/4 ${ran}`, async (err, stderr, stdout) => {
 fs.unlinkSync(medok)
 if (err) return setReply('Error!')
 let buffer453 = fs.readFileSync(ran)
-await xdev.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
+await rama.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
 fs.unlinkSync(ran)
 })
 } else {
@@ -1530,12 +1546,12 @@ case 'volume':
 if (Number(args[0]) >= 11) return setReply("Maksimal volume adalah 10")
 if (isQuotedAudio){ 
 setReply(mess.wait)
-let media3 = await xdev.downloadAndSaveMediaMessage(quoted)
+let media3 = await rama.downloadAndSaveMediaMessage(quoted)
 let rname = getRandom('.mp3')
 exec(`ffmpeg -i ${media3} -filter:a "volume=${args[0]}" ${rname}`, async (err, stderr, stdout) => {
 if (err) return setReply('Error!')
 let jadie = fs.readFileSync(rname)
-await xdev.sendMessage(from, {audio: jadie, mimetype: 'audio/mp4', ptt: true }, {quoted: dev})
+await rama.sendMessage(from, {audio: jadie, mimetype: 'audio/mp4', ptt: true }, {quoted: dev})
 fs.unlinkSync(rname)
 fs.unlinkSync(media3)
 }
@@ -1549,13 +1565,13 @@ break
 case 'ghost':
 if(isQuotedAudio) { 
 setReply(mess.wait)
-let mele = await xdev.downloadAndSaveMediaMessage(quoted)
+let mele = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${mele} -filter:a "atempo=1.6,asetrate=3486" ${ran}`, async (err, stderr, stdout) => {
 fs.unlinkSync(mele)
 if (err) return setReply('Error!')
 let buffer453 = fs.readFileSync(ran)
-await xdev.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
+await rama.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
 fs.unlinkSync(ran)
 }) 
 } else {
@@ -1568,13 +1584,13 @@ break
 case 'nightcore':
 if(isQuotedAudio) { 
 setReply(mess.wait)
-let mela = await xdev.downloadAndSaveMediaMessage(quoted)
+let mela = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${mela} -filter:a atempo=1.06,asetrate=44100*1.25 ${ran}`, async (err, stderr, stdout) => {
 fs.unlinkSync(mela)
 if (err) return setReply('Error!')
 let buffer453 = fs.readFileSync(ran)
-await xdev.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
+await rama.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
 fs.unlinkSync(ran)
 })
 } else {
@@ -1587,13 +1603,13 @@ break
 case 'tupai':
 if(isQuotedAudio) { 
 setReply(mess.wait)
-let medoi = await xdev.downloadAndSaveMediaMessage(quoted)
+let medoi = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${medoi} -filter:a "atempo=0.8,asetrate=65100" ${ran}`, async (err, stderr, stdout) => {
 fs.unlinkSync(medoi)
 if (err) return setReply('Error!')
 let buffer453 = fs.readFileSync(ran)
-await xdev.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
+await rama.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
 fs.unlinkSync(ran)
 })
 } else {
@@ -1629,13 +1645,13 @@ setReply(respon)
 case 'imut':
 if(isQuotedAudio) { 
 setReply(mess.wait) 
-let masa = await xdev.downloadAndSaveMediaMessage(quoted)
+let masa = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${masa} -af atempo=1/2,asetrate=44500*2/1 ${ran}`, async (err, stderr, stdout) => {
 fs.unlinkSync(masa)
 if (err) return setReply('Error!')
 let buffer453 = fs.readFileSync(ran)
-await xdev.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
+await rama.sendMessage(from, {mimetype: 'audio/mp4', ptt: true, audio: buffer453}, { quoted: dev })
 fs.unlinkSync(ran)
 })
 } else {
@@ -1648,7 +1664,7 @@ break
 case 'whatmusic':
 if (isQuotedAudio) {
 setReply(mess.wait)
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${media} ${ran}`, (err) => {
 fs.unlinkSync(media)
@@ -1688,13 +1704,13 @@ let teks = `
 🎧 Audio : ${FileSize(audio[0].contentLength)}
 🎬 Video : ${FileSize(format.contentLength)}
 `
-xdev.sendButImage(from, teks, `© ${fake1}`, yamyam, aklo, {contextInfo: forward})
+rama.sendButImage(from, teks, `© ${fake1}`, yamyam, aklo, {contextInfo: forward})
 });
 fs.unlinkSync(ran)
 })
 } else if (isQuotedVideo) {
 setReply(mess.wait)
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.mp3')
 exec(`ffmpeg -i ${media} -vn ${ran}`, (err) => {
 fs.unlinkSync(media)
@@ -1734,7 +1750,7 @@ let teks = `
 🎧 Audio : ${FileSize(audio[0].contentLength)}
 🎬 Video : ${FileSize(format.contentLength)}
 `
-xdev.sendButImage(from, teks, `© ${fake1}`, yamyam, aklo, {contextInfo: forward})
+rama.sendButImage(from, teks, `© ${fake1}`, yamyam, aklo, {contextInfo: forward})
 });
 fs.unlinkSync(ran)
  })
@@ -1755,7 +1771,7 @@ var ram3 =`${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}`
 let uptime = process.uptime();
 const timestampu = speed();
 var total = math(`${groups.length} ${privat.length}`)
-var wa_version = xdev.waVersion
+var wa_version = rama.waVersion
 var mcc = "Error"
 var mnc = "Error"
 var os_version = "Error"
@@ -1808,7 +1824,7 @@ let info = fs.readFileSync('./stik/bot.jpg')
 let options2 = {contextInfo: { forward, externalAdReply:{title:`${ucapanWaktu} ${pushname}`,body:`*click here to play music`,mediaType:"2",thumbnail: fs.readFileSync('./stik/bot.jpg'), mediaUrl:`https://www.instagram.com/reel/CZ2bMRkgHCR/?utm_medium=copy_link`}}}
 let gbutsan = [{buttonId: 'YOUTUBE', buttonText: {displayText: `ʏᴏᴜᴛᴜʙᴇ`}, type: 1},
 {buttonId: 'RULES', buttonText: {displayText: `ʀᴜʟᴇs`}, type: 1}]         
-xdev.sendButImage(from, menunya, `Baterai : error\n© Extream`, fs.readFileSync('./stik/bot.jpg'), gbutsan)      
+rama.sendButImage(from, menunya, `Baterai : error\nR-BOT`, fs.readFileSync('./stik/bot.jpg'), gbutsan)      
 } 
 break 
 
@@ -1816,7 +1832,7 @@ break
 case 'tomp4':
 if (isQuotedSticker) {
 setReply(mess.wait)
-let file = await xdev.downloadAndSaveMediaMessage(quoted)
+let file = await rama.downloadAndSaveMediaMessage(quoted)
 let outGif = `./temp/${getRandom('.gif')}`
 let outMp4 = `./temp/${getRandom('.mp4')}`
 //convert webp ke gif pakai imagemagick
@@ -1832,7 +1848,7 @@ if (err) {
 console.log(err)
 return setReply(`${err}`)
  }      
-await xdev.sendMessage(from,{video: fs.readFileSync(outMp4), caption: "Nih"},{quoted: dev})
+await rama.sendMessage(from,{video: fs.readFileSync(outMp4), caption: "Nih"},{quoted: dev})
  fs.unlinkSync(outGif)
  fs.unlinkSync(outMp4)
  fs.unlinkSync(file)
@@ -1845,9 +1861,9 @@ break
 
 case 'attp':
  try {
-if (args.length == 0) return setReply(`Example: ${prefix + command} YUxdev`)
+if (args.length == 0) return setReply(`Example: ${prefix + command} YUrama`)
 //let buffer = await getBuffer(`https://api.xteam.xyz/attp?file&text=${encodeURI(q)}`)
-await xdev.sendMessage(from, {sticker: {url:`https://api.xteam.xyz/attp?file&text=${encodeURI(q)}` }}, { quoted: dev })
+await rama.sendMessage(from, {sticker: {url:`https://api.xteam.xyz/attp?file&text=${encodeURI(q)}` }}, { quoted: dev })
 } catch (e) {
  console.log(e)
  setReply(`Maap sedang error coba lagi besok`)            
@@ -1867,10 +1883,10 @@ Release: ${data.release_date}
 Mohon tunggu, sedang mengirim
 File audio ${data.name}
 `
-await xdev.sendMessage(from, {caption: teks, image: { url: data.cover_url}, mimetype:  "image/jpeg" }, {quoted: dev})        
+await rama.sendMessage(from, {caption: teks, image: { url: data.cover_url}, mimetype:  "image/jpeg" }, {quoted: dev})        
 let song = await spotify.downloadTrack(q)
 console.log(song)
-await xdev.sendMessage(from, {audio: song, mimetype:  'audio/mp3' }, {quoted: dev})        
+await rama.sendMessage(from, {audio: song, mimetype:  'audio/mp3' }, {quoted: dev})        
 }
 break              
 
@@ -1945,7 +1961,7 @@ let nano = [
 {"buttonId": `${prefix}scdoc ${result.collection[0].permalink_url}`,"buttonText": {"displayText": `ᴅᴏᴄᴜᴍᴇɴᴛ`},"type": "RESPONSE"}
 ]
 
-//xdev.xdev.sendButImage (from, teks, © ${fake1}, yamiyami, nano)
+//rama.rama.sendButImage (from, teks, © ${fake1}, yamiyami, nano)
  break
   
   
@@ -1981,7 +1997,7 @@ let nano = [
 {"buttonId": `${prefix}scdoc ${res.permalink_url}`,"buttonText": {"displayText": `ᴅᴏᴄᴜᴍᴇɴᴛ`},"type": "RESPONSE"}
 ]
 
-xdev.sendButImage(from, teks, copyright, yamiyami, nano, {contextInfo: forward}) 
+rama.sendButImage(from, teks, copyright, yamiyami, nano, {contextInfo: forward}) 
 
 } else {
 
@@ -2028,7 +2044,7 @@ let nano = [
 {"buttonId": `${prefix}scmp3 ${res.permalink_url} `,"buttonText": {"displayText": `ᴀᴜᴅɪᴏ`},"type": "RESPONSE"},
 {"buttonId": `${prefix}scdoc ${res.permalink_url}`,"buttonText": {"displayText": `ᴅᴏᴄᴜᴍᴇɴᴛ`},"type": "RESPONSE"}
 ]
-xdev.sendButImage(from, teks, copyright, yamiyami, nano, {contextInfo: forward}) 
+rama.sendButImage(from, teks, copyright, yamiyami, nano, {contextInfo: forward}) 
 }
 }
 break
@@ -2043,14 +2059,14 @@ let igreel = q.includes("https://www.instagram.com/reel/")
 
 if(igreel){
 Download.insta_reel(q).then(async (data) => {
-await xdev.sendMessage(from, {caption: `Nih`, video: {url: data.url} }, {quoted: dev})
+await rama.sendMessage(from, {caption: `Nih`, video: {url: data.url} }, {quoted: dev})
 console.log(data)
 console.log(data.url)
 })
 } else {
 let { instagramdl, instagramdlv2 } = require('@bochilteam/scraper')
 let results = await instagramdl(args[0]).catch(async _ => await instagramdlv2(args[0]))
-for (const { url } of results) await xdev.sendMedia(from, url, dev, {caption: "Nih"})
+for (const { url } of results) await rama.sendMedia(from, url, dev, {caption: "Nih"})
 }
 }
 break
@@ -2093,8 +2109,8 @@ Website: ${nana.blog}
 Github url: ${nana.url}
 `
 console.log(toks)
-await xdev.sendMessage(from, {image:gambar, caption: toks},{quoted: dev})
-//await xdev.sendMedia (from, foto, dev, {caption: toks})
+await rama.sendMessage(from, {image:gambar, caption: toks},{quoted: dev})
+//await rama.sendMedia (from, foto, dev, {caption: toks})
 }
 break
 			
@@ -2106,7 +2122,7 @@ googleImage(q).then(async (data) => {
 let foto = data[Math.floor(Math.random() * data.length)]
 if(data.length == "0") return setReply("Image tidak di temukan")
 setReply(mess.wait)
-xdev.sendMedia (from, foto, dev, {caption: "Nih"})
+rama.sendMedia (from, foto, dev, {caption: "Nih"})
 })
 } catch(err){
 let teks = args.join(' ')
@@ -2116,7 +2132,7 @@ if (error){ return setReply('_[ ! ] Error Terjari Kesalahan Atau Hasil Tidak Dit
 else {
 var gugIm = result
 var random =  gugIm[Math.floor(Math.random() * gugIm.length)].url
-xdev.sendMedia (from, random, dev, {caption:  `*Hasil Pencarian Dari :* ${teks}`})
+rama.sendMedia (from, random, dev, {caption:  `*Hasil Pencarian Dari :* ${teks}`})
 }
 }
 }
@@ -2129,7 +2145,7 @@ case 'blackping':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-blackpink-logo-style-online-1001.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -2140,7 +2156,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-impressive-glitch-text-effects-online-1027.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 }
 break
@@ -2153,7 +2169,7 @@ let teks1 = q.split("|")[0]
 let teks2 = q.split("|")[1]
 textpro("https://textpro.me/create-a-glitch-text-effect-online-free-1026.html", [
 `${teks1}`,`${teks2}`])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 }
 break
@@ -2166,7 +2182,7 @@ let teks1 = q.split("|")[0]
 let teks2 = q.split("|")[1]
 textpro("https://textpro.me/create-glitch-text-effect-style-tik-tok-983.html", [
 `${teks1}`,`${teks2}`])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -2180,7 +2196,7 @@ let teks1 = q.split("|")[0]
 let teks2 = q.split("|")[1]
 textpro("https://textpro.me/create-space-3d-text-effect-online-985.html", [
 `${teks1}`,`${teks2}`])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 }
 break
@@ -2194,7 +2210,7 @@ let teks1 = q.split("|")[0]
 let teks2 = q.split("|")[1]
 textpro("https://textpro.me/create-lion-logo-mascot-online-938.html", [
 `${teks1}`,`${teks2}`])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 }
 break
@@ -2205,7 +2221,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-3d-neon-light-text-effect-online-1028.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  break
 
@@ -2215,7 +2231,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/neon-text-effect-online-879.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  break
 	
@@ -2224,7 +2240,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/green-neon-text-effect-874.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 break
    
@@ -2233,7 +2249,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/bokeh-text-effect-876.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 break
    
@@ -2243,7 +2259,7 @@ break
 	setReply(mess.wait)
 	textpro("https://textpro.me/holographic-3d-text-effect-975.html", [
     `${q}`,])
-  .then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+  .then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
   .catch((err) => console.log(err));
    break
 	
@@ -2254,7 +2270,7 @@ break
 	let teks2 = q.split("|")[1]
 	textpro("https://textpro.me/online-black-and-white-bear-mascot-logo-creation-1012.html", [
     `${teks1}`,`${teks2}`])
-  .then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+  .then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
   .catch((err) => console.log(err));
   }
    break
@@ -2267,7 +2283,7 @@ break
 	let teks2 = q.split("|")[1]
 	textpro("https://textpro.me/create-wolf-logo-galaxy-online-936.html", [
     `${teks1}`,`${teks2}`])
-  .then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+  .then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
   .catch((err) => console.log(err));
   }
    break
@@ -2278,7 +2294,7 @@ case 'joker':
 	setReply(mess.wait)
 	textpro("https://textpro.me/create-logo-joker-online-934.html", [
     `${q}`,])
-  .then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+  .then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
   .catch((err) => console.log(err));
    break
 	
@@ -2288,7 +2304,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/dropwater-text-effect-872.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 break
 	
@@ -2298,7 +2314,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/neon-light-text-effect-with-galaxy-style-981.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  break
 	
@@ -2308,7 +2324,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/break-wall-text-effect-871.html", [
  `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  break
 	
@@ -2318,7 +2334,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/natural-leaves-text-effect-931.html", [
 `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  break
 	
@@ -2328,7 +2344,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/carbon-text-effect-833.html", [
  `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 break
 	
@@ -2338,7 +2354,7 @@ if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-a-sketch-text-effect-online-1044.html", [
  `${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 break
 		
@@ -2382,11 +2398,11 @@ case 'beautiful':
 if (isQuotedImage) {
 try{
 setReply(mess.wait)
-let ahah = await xdev.downloadAndSaveMediaMessage(quoted)
+let ahah = await rama.downloadAndSaveMediaMessage(quoted)
 let owgi = await TelegraPh(ahah)
 let ini_gen = `${command}`
 ameApi.generate(ini_gen, { url : owgi}).then(gambar => {
-xdev.sendMessage(from, {image: gambar, caption: "Nih"  }, {quoted: dev})
+rama.sendMessage(from, {image: gambar, caption: "Nih"  }, {quoted: dev})
 fs.unlinkSync(ahah) 
 })
 }catch(err){
@@ -2395,12 +2411,12 @@ console.log(err)
 } else if (isQuotedTag || isQuotedReply) {
 setReply(mess.wait)
 let ghost = users 
-let oppp = await xdev.profilePictureUrl(ghost, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
+let oppp = await rama.profilePictureUrl(ghost, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
 let ini_gen = `${command}`
 ameApi.generate(ini_gen, {
 url : oppp
 }).then(gambar => {
-xdev.sendMessage(from, {image: gambar, caption: "Nih" }, {quoted: dev})
+rama.sendMessage(from, {image: gambar, caption: "Nih" }, {quoted: dev})
 }).catch(err => {
 setReply(`${err}`)
 });    
@@ -2436,7 +2452,7 @@ await setReply("File size melebihi batas,\nbatas yang di tentukan adalah 50mb")
 await setReply(tuks)
 return
 }
-await xdev.sendMedia (from, nana.url, dev, {fileName: nana.filename})
+await rama.sendMedia (from, nana.url, dev, {fileName: nana.filename})
 //limitAdd(senderNumber, user)
 } else{
 setReply("Link Invalid")
@@ -2487,7 +2503,7 @@ let url = `https://github.com/${q.split("|")[0]}/${q.split("|")[1]}/archive/refs
 //ByRizkyAdi
 console.log("Done")
 setReply(`Waiting for compress to zip`)
-await xdev.sendMedia (from, url, dev, {fileName: q.split("|")[1]})
+await rama.sendMedia (from, url, dev, {fileName: q.split("|")[1]})
 }
 break 
   
@@ -2504,7 +2520,7 @@ let url = `https://api.github.com/repos/${user}/${repos}/zipball`
 let filename = (await fetch(url, {method: 'HEAD'})).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
 // 'attachment; filename=ilmanhdyt/ShiraoriBOT-Mdv2.5.1-251-g836cccd.zip'
 setReply(`*Mohon tunggu, sedang mengirim repository..*`)
-await xdev.sendMedia (from, url, dev, {fileName: filename})
+await rama.sendMedia (from, url, dev, {fileName: filename})
 } catch (err){
 setReply(mess.error.link)
 }
@@ -2540,7 +2556,7 @@ setReply(`Close time ${q} dimulai dari sekarang`)
 setTimeout( () => {
 var nomor = dev.participant
 const close = `*Tepat waktu* grup ditutup oleh admin\nsekarang hanya admin yang dapat mengirim pesan`
-xdev.groupSettingUpdate(from, 'announcement')
+rama.groupSettingUpdate(from, 'announcement')
 setReply(close)
 }, timer)
 break
@@ -2558,7 +2574,7 @@ setReply(`Open time ${q} dimulai dari sekarang`)
 setTimeout( () => {
 var nomor = dev.participant
 const open = `*Tepat waktu* grup dibuka oleh admin\n sekarang member dapat mengirim pesan`
-xdev.groupSettingUpdate(from, 'not_announcement')
+rama.groupSettingUpdate(from, 'not_announcement')
 setReply(open)
 }, timer)
 break
@@ -2567,7 +2583,7 @@ break
 case 'tourl': {
 setReply(mess.wait)
 let { UploadFileUgu} = require('../lib/uploader')
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 if (isQuotedImage) {
 let anu = await TelegraPh(media)
 setReply(util.format(anu))
@@ -2622,7 +2638,7 @@ let teks =`*YOUTUBE AUDIO DOWNLOADER*
 👤 Channel : ${anu.all[0].author.url}
 🔗 Url : ${anu.all[0].url}
 📝 Description : ${anu.all[0].description}`
-await xdev.sendMessage(from, {image: {url: foto}, caption: teks},{quoted: dev})
+await rama.sendMessage(from, {image: {url: foto}, caption: teks},{quoted: dev})
 downloadMp3(q) 
   } catch(err){
 setReply(err)
@@ -2668,7 +2684,7 @@ let teks =`*YOUTUBE VIDEO DOWNLOADER*
 📹 Channel : ${anu.all[0].author.url}
 🔗 Url : ${anu.all[0].url}
 📝 Description : ${anu.all[0].description}`
-await xdev.sendMessage(from, {image: {url: anu.all[0].image}, caption: teks},{quoted: dev})
+await rama.sendMessage(from, {image: {url: anu.all[0].image}, caption: teks},{quoted: dev})
 downloadMp4(q) 
   } catch(err){
 setReply(`${err}`)
@@ -2682,7 +2698,7 @@ let wipi = wipu[Math.floor(Math.random() * (wipu.length))]
 let kentir = await getBuffer(wipi)
 let teks = "Nih"                                          
 let buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'🐤OWNER'},type:1}]                            
-xdev.sendButImage(from, teks, copyright, kentir, buttons, {quoted: dev})      
+rama.sendButImage(from, teks, copyright, kentir, buttons, {quoted: dev})      
  }
 break  
 
@@ -2690,24 +2706,24 @@ case 'chat': {
 if (!isOwner) return setReply(mess.only.owner)
 if (!q) return setReply( 'Option : 1. mute\n2. unmute\n3. archive\n4. unarchive\n5. read\n6. unread\n7. delete')
 if (args[0] === 'mute') {
-xdev.chatModify({ mute: 'Infinity' }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({ mute: 'Infinity' }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (args[0] === 'unmute') {
-xdev.chatModify({ mute: null }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({ mute: null }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (args[0] === 'archive') {
-xdev.chatModify({  archive: true }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({  archive: true }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (args[0] === 'unarchive') {
-xdev.chatModify({ archive: false }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({ archive: false }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (args[0] === 'read') {
-xdev.chatModify({ markRead: true }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({ markRead: true }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (args[0] === 'unread') {
-xdev.chatModify({ markRead: false }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({ markRead: false }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (args[0] === 'delete') {
-xdev.chatModify({ clear: { message: { id: dev.quoted.id, fromMe: true }} }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
+rama.chatModify({ clear: { message: { id: dev.quoted.id, fromMe: true }} }, from, []).then((res) => setReply(jsonformat(res))).catch((err) => setReply(jsonformat(err)))
 } else if (q.startsWith("+") || q.startsWith('08') || q.startsWith('62') ){
 if (args[0].startsWith('08')) return setReply('Awali nomor dengan 62') 
 var nomor = q.split("|")[0].replace(new RegExp("[()+-/ +/]", "gi"), "") 
 var org = q.split("|")[1];
-xdev.sendMessage(nomor+'@s.whatsapp.net',{text: org})   
+rama.sendMessage(nomor+'@s.whatsapp.net',{text: org})   
 setReply(`Sukses mengirim chat:\n${org} ke nomer ${nomor}`)           
  }
  }
@@ -2723,21 +2739,21 @@ setReply(mess.wait)
 
 try{
 let { Sticker, StickerTypes } = require('wa-sticker-formatter')
-let olalah = await xdev.downloadAndSaveMediaMessage(quoted)
+let olalah = await rama.downloadAndSaveMediaMessage(quoted)
 let anuah = await TelegraPh(olalah)
 let media = `https://api.memegen.link/images/custom/${top}/${bottom}.png?background=${anuah}`
 await makeSticker(media,Sticker, StickerTypes)
 await fs.unlinkSync(olalah)
 
 } catch (err){
-let olalah = await xdev.downloadAndSaveMediaMessage(quoted)
+let olalah = await rama.downloadAndSaveMediaMessage(quoted)
 let anuah = await TelegraPh(olalah)
 let ranp = getRandom('.gif')
 let rano = getRandom('.webp')
 let anu2 = `https://api.memegen.link/images/custom/${top}/${bottom}.png?background=${anuah}`
 exec(`wget ${anu2} -O ${ranp} && ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${rano}`, async (err) => {
 if (err) return setReply(`${err}`)
-await xdev.sendMessage(from,{sticker: fs.readFileSync(rano)}, {quoted: dev})
+await rama.sendMessage(from,{sticker: fs.readFileSync(rano)}, {quoted: dev})
 await fs.unlinkSync(rano)
 await fs.unlinkSync(ranp)
 })
@@ -2804,7 +2820,7 @@ Syarat dan Ketentuan menggunakan *${fake}*
 let mok = [{"buttonId": `Thanks`,"buttonText": {"displayText": `ᴛʜᴀɴᴋs`},"type": "RESPONSE"},
                     {"buttonId": `${prefix}dashboard`,"buttonText": {"displayText": `ᴅᴀsʜʙᴏᴀʀᴅ`},"type": "RESPONSE"}]
                     
-xdev.sendButImage(from, teks, `© Extream`, fs.readFileSync('./stik/bot.jpg'), mok, {quoted: dev})             
+rama.sendButImage(from, teks, `R-BOT`, fs.readFileSync('./stik/bot.jpg'), mok, {quoted: dev})             
 }
 break
   
@@ -2884,7 +2900,7 @@ if (!isOwner) return onlyOwner()
 if(isGroup){
 
 if(users){
-await xdev.updateBlockStatus(users, "block")
+await rama.updateBlockStatus(users, "block")
 setReply(`Sukses block user`)
 } else {
 setReply("Silakan reply pesan atau tag atau input nomer yang mau di block")
@@ -2894,7 +2910,7 @@ if(q){
 var woke = q.replace(new RegExp("[()+-/ +/]", "gi"), "") + `@s.whatsapp.net`
 if(woke.startsWith("08")) return setReply("Awali nomer dengan 62")
 if(!woke.startsWith("62")) return setReply("Silakan reply pesan atau tag atau input nomer yang mau di block")
-await xdev.updateBlockStatus(woke, "block")
+await rama.updateBlockStatus(woke, "block")
 } else if(!q){
 setReply("Masukan nomer yang ingin di block")
 }
@@ -2906,7 +2922,7 @@ case  'unblock':
 if (!isOwner) return onlyOwner()
 if(isGroup){
 if(users){
-await xdev.updateBlockStatus(users, "unblock")
+await rama.updateBlockStatus(users, "unblock")
 await setReply(`Sukses unblock user`)
 } else if(!q){
 setReply("Silakan reply pesan atau tag atau input nomer yang mau di block")
@@ -2916,7 +2932,7 @@ if(q){
 let woke = q.replace(new RegExp("[()+-/ +/]", "gi"), "") + `@s.whatsapp.net`
 if(woke.startsWith("08")) return setReply("Awali nomer dengan 62")
 if(!woke.startsWith("62")) return setReply("Silakan reply pesan atau tag atau input nomer yang mau di block")
-await xdev.updateBlockStatus(woke, "unblock")
+await rama.updateBlockStatus(woke, "unblock")
 setReply(`Sukses unblock ${woke}`)
 } else if(!q){
 setReply("Masukan nomer yang ingin di unblock")
@@ -2935,7 +2951,7 @@ if (!json.status) return setReply(json)
 await setReplty('Sedang di proses..')
 for (let { url, type } of json.data) {
 await delay(2000)
-xdev.sendMedia (from, url, dev, {caption: "Nih"})      
+rama.sendMedia (from, url, dev, {caption: "Nih"})      
 }
 }
 break
@@ -2952,7 +2968,7 @@ Console = false
 let eh =`Mode auto respon telah di matikan`
 setReply(eh)
 }else if (!q) {
-xdev.sendButMessage(from, `MODE AUTOREAD`, `Silahkan pilih salah satu`, [
+rama.sendButMessage(from, `MODE AUTOREAD`, `Silahkan pilih salah satu`, [
 {buttonId: `${prefix}console on`, buttonText: {displayText: On },type: 1},
 {buttonId: `${prefix}console off`, buttonText: { displayText: Off },type: 1}]);
  }
@@ -2995,21 +3011,21 @@ setReply(mess.wait)
 
 try{
 let { Sticker, StickerTypes } = require('wa-sticker-formatter')
-let olalah = await xdev.downloadAndSaveMediaMessage(quoted)
+let olalah = await rama.downloadAndSaveMediaMessage(quoted)
 let anuah = await TelegraPh(olalah)
 let media = `https://some-random-api.ml/canvas/${command}?avatar=${anuah}`
 await makeSticker(media,Sticker, StickerTypes)
 await fs.unlinkSync(olalah)
 
 } catch (err){  
-let owgi = await xdev.downloadAndSaveMediaMessage(quoted)
+let owgi = await rama.downloadAndSaveMediaMessage(quoted)
 let anu = await TelegraPh(owgi)
 let ranp = getRandom('.gif')
 let rano = getRandom('.webp')
 let anu4 = `https://some-random-api.ml/canvas/${command}?avatar=${anu}`
 exec(`wget ${anu4} -O ${ranp} && ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${rano}`, async (err) => {
 if (err) return setReply(`${err}`)
-await xdev.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: dev})
+await rama.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: dev})
 await fs.unlinkSync(owgi)
 await fs.unlinkSync(ranp)
 await fs.unlinkSync(rano)
@@ -3021,20 +3037,20 @@ setReply(mess.wait)
 
 try{
 let { Sticker, StickerTypes } = require('wa-sticker-formatter')
-let olalah = await xdev.profilePictureUrl(mentionByReply, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png') 
+let olalah = await rama.profilePictureUrl(mentionByReply, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png') 
 let media = `https://some-random-api.ml/canvas/${command}?avatar=${olalah}`
 await makeSticker(media,Sticker, StickerTypes)
 await fs.unlinkSync(olalah)
 
 } catch (err){  
 console.log(err)
-let oppp = await xdev.profilePictureUrl(mentionByReply, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
+let oppp = await rama.profilePictureUrl(mentionByReply, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
 let anu4 = `https://some-random-api.ml/canvas/${command}?avatar=${oppp}`
 let ranp = getRandom('.gif')
 let rano = getRandom('.webp')
 exec(`wget ${anu4} -O ${ranp} && ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${rano}`, async (err) => {
 if (err) return setReply(`${err}`)
-await xdev.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: dev})
+await rama.sendMessage(from, {sticker: fs.readFileSync(rano)}, {quoted: dev})
 await fs.unlinkSync(oppp)
 await fs.unlinkSync(ranp)
 await fs.unlinkSync(rano)
@@ -3075,7 +3091,7 @@ let b = a.trim()
 let imag = await getBuffer(res[0].image)
 let mok = [{"buttonId": `${prefix}playmp3 ${res[0].url} `,"buttonText": {"displayText": `ᴀᴜᴅɪᴏ`},"type": "RESPONSE"},
                     {"buttonId": `${prefix}playmp4 ${res[0].url}`,"buttonText": {"displayText": `ᴠɪᴅᴇᴏ`},"type": "RESPONSE"}]
-xdev.sendButImage(from, b, `Baterai : Not Detec\ncopyright`, imag, mok, {quoted: dev})
+rama.sendButImage(from, b, `Baterai : Not Detec\ncopyright`, imag, mok, {quoted: dev})
  } catch (e) {
  console.log(e)
  setReply(`${e}`)
@@ -3085,8 +3101,8 @@ break
 case 'setppbot':
 if (!isOwner) return setReply(mess.only.owner)
 if (isImage || isQuotedImage) {
-var media = await xdev.downloadAndSaveMediaMessage(quoted)
-var data =  await xdev.updateProfilePicture(botNumber, { url: media })
+var media = await rama.downloadAndSaveMediaMessage(quoted)
+var data =  await rama.updateProfilePicture(botNumber, { url: media })
 fs.unlinkSync(media)
 setReply(`Sukses`)
 } else {
@@ -3099,8 +3115,8 @@ if (!isOwner) return setReply(mess.only.owner)
 if (!isGroupAdmins) return setReply(mess.only.admin)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
 if (isImage || isQuotedImage) {
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
-await xdev.updateProfilePicture(from, { url: media })
+let media = await rama.downloadAndSaveMediaMessage(quoted)
+await rama.updateProfilePicture(from, { url: media })
 .then( res => {
 setReply(`Sukses`)
 fs.unlinkSync(media)
@@ -3117,7 +3133,7 @@ if (!isOwner) return onlyOwner()
 if (args.length < 2) return reply(`Masukkan isi pesannya`)
 var data = await store.chats.all()
 for (let i of data) {
-await xdev.sendMessage(i.id, { text: `${q}\n\n_*BROADCAST MESSAGE*_` })
+await rama.sendMessage(i.id, { text: `${q}\n\n_*BROADCAST MESSAGE*_` })
 await sleep(1000)
 }
 break
@@ -3137,7 +3153,7 @@ if (!isKickarea) return setReply("Udah off!!");
 removeDataId (command, from, DataId)
 setReply("Sukses mematikan kickarea!");
 } else if (!q) {
-xdev.sendButMessage(from, `MODE KICKAREA`, `Silahkan pilih salah satu`, 
+rama.sendButMessage(from, `MODE KICKAREA`, `Silahkan pilih salah satu`, 
 [{buttonId: `${prefix}kickarea on`, buttonText: { displayText: `on`,},type: 1,},
 {buttonId: `${prefix}kickarea off`, buttonText: { displayText: `off`,}, type: 1}, ]);
  }
@@ -3162,7 +3178,7 @@ removeDataId (command, from, DataId)
 let ih =`Fitur antilink group telah di matikan`
 setReply(ih)
 }else if (!q) {
-xdev.sendButMessage(from, `MODE ANTI LINK GROUP`, `Silahkan pilih salah satu`, [
+rama.sendButMessage(from, `MODE ANTI LINK GROUP`, `Silahkan pilih salah satu`, [
 {buttonId: `${prefix}antilinkgc on`, buttonText: {displayText: On },type: 1},
 {buttonId: `${prefix}antilinkgc off`, buttonText: { displayText: Off },type: 1}]);
  }
@@ -3185,7 +3201,7 @@ removeDataId (command, from, DataId)
 let ih =`Fitur antilink telah di matikan`
 setReply(ih)
 } else if (!q) {
-xdev.sendButMessage(from, `MODE ANTI LINK`, `Silahkan pilih salah satu`, [
+rama.sendButMessage(from, `MODE ANTI LINK`, `Silahkan pilih salah satu`, [
 {buttonId: `${prefix}antilink on`, buttonText: {displayText: On },type: 1},
 {buttonId: `${prefix}antilink off`, buttonText: { displayText: Off },type: 1}]);
 }
@@ -3222,7 +3238,7 @@ break
 case 'whatanime':{
 const FormData = require('form-data')
 if (isImage || isQuotedImage) {       
-let yoooo = await xdev.downloadAndSaveMediaMessage(quoted)
+let yoooo = await rama.downloadAndSaveMediaMessage(quoted)
 let bodyForm = new FormData();
 bodyForm.append('image', fs.createReadStream(yoooo)) 
 fetchJson("https://api.trace.moe/search", { method: "POST", body: bodyForm, })
@@ -3233,12 +3249,12 @@ if (res.result[0].similarity < 0.92) {
 teks += '*Low similarity. 🤔*\n\n'
 }
 teks += `*Title*: ${res.result[0].filename.split('.mp4')[0]}\n*Episode*: ${res.result[0].episode}\n*Similarity*: ${(res.result[0].similarity * 100).toFixed(1)}%`
-await xdev.sendMessage(from, {caption: teks, video: {url : res.result[0].video}}, {quoted: dev})
+await rama.sendMessage(from, {caption: teks, video: {url : res.result[0].video}}, {quoted: dev})
 })    .catch((err) => {                   
 setReply(mess.error.api)
 })
 } else if (isSticker || isQuotedSticker ) {
-let yoooo = await xdev.downloadAndSaveMediaMessage(quoted)
+let yoooo = await rama.downloadAndSaveMediaMessage(quoted)
 let ran = getRandom('.png')
 exec(`ffmpeg -i ${yoooo} ${ran}`, async (err) => {
 fs.unlinkSync(yoooo)
@@ -3253,7 +3269,7 @@ if (res.result[0].similarity < 0.92) {
 teks += '*Low similarity. 🤔*\n\n'
 }
 teks += `*Title*: ${res.result[0].filename.split('.mp4')[0]}\n*Episode*: ${res.result[0].episode}\n*Similarity*: ${(res.result[0].similarity * 100).toFixed(1)}%`
-await xdev.sendMessage(from, {caption: teks, video: {url : res.result[0].video}}, {quoted: dev})
+await rama.sendMessage(from, {caption: teks, video: {url : res.result[0].video}}, {quoted: dev})
 fs.unlinkSync(ran)
 })
 .catch((err) => {       
@@ -3304,7 +3320,7 @@ ${v.content}`).join``}`).join(`
  
 let mok = [{"buttonId": `Thanks`,"buttonText": {"displayText": `ᴛʜᴀɴᴋs`},"type": "RESPONSE"},
                     {"buttonId": `${prefix}donasi`,"buttonText": {"displayText": `ᴅᴏɴᴀsɪ`},"type": "RESPONSE"}]
-xdev.sendButImage(from, teks, `© ${fake1}`, foto, mok, {contextInfo: forward})             
+rama.sendButImage(from, teks, `© ${fake1}`, foto, mok, {contextInfo: forward})             
 
 }
 break
@@ -3334,7 +3350,7 @@ console.log('[ T I K T O K ] downloader'+ res)
 console.log(res)
 let ep = res.wm   
   console.log(ep)
-xdev.sendMessage(from, {caption: "Nih", video: {url: ep}},{quoted: dev})
+rama.sendMessage(from, {caption: "Nih", video: {url: ep}},{quoted: dev})
  })
  }
  break
@@ -3363,7 +3379,7 @@ exec(`ffmpeg -i ${ron} -vn ${ran}`, (err) => {
 fs.unlinkSync(ron)
 if (err) return setReply(`Err: ${err}`)
 let buffer453 = fs.readFileSync(ran)
-xdev.sendMessage(from, { audio: buffer453, mimetype: 'audio/mp4'}, { quoted: dev })
+rama.sendMessage(from, { audio: buffer453, mimetype: 'audio/mp4'}, { quoted: dev })
 fs.unlinkSync(ran)
 })
 })
@@ -3388,7 +3404,7 @@ setReply(mess.wait)
 hx.ttdownloader(lin).then(res => {
 console.log('[ T I K T O K ] downloader')
 let ep = res.nowm              
-xdev.sendMessage(from, {caption: "Nih", video: {url: ep}},{quoted: dev})
+rama.sendMessage(from, {caption: "Nih", video: {url: ep}},{quoted: dev})
 })
 } catch (err){
 setReply(`${err}`)
@@ -3432,13 +3448,13 @@ break
 
 
 case 'infogc': {
-let _meta = await xdev.groupMetadata(from)
+let _meta = await rama.groupMetadata(from)
   console.log(_meta)
-let _img = await xdev.profilePictureUrl(_meta.id, 'image') 
+let _img = await rama.profilePictureUrl(_meta.id, 'image') 
 let caption = `${_meta.subject} - Created on ${moment(_meta.creation * 1000).format('ll')}\n\n` +
 `*${_meta.participants.length}* Total Members\n*${_meta.participants.filter(x => x.admin === 'admin').length}* Admin\n*${_meta.participants.filter(x => x.admin === null).length}* Not Admin\n\n` +
 `Group ID : ${_meta.id}`
-await xdev.sendMessage(from,{
+await rama.sendMessage(from,{
 caption,
 image: await getBuffer(_img)
 },
@@ -3515,7 +3531,7 @@ nopref = false
 allpref = true
 setReply(`Berhasil mengubah prefix ke *「 ${q} 」*`)
 } else if (!q) {
-xdev.sendButMessage(from, teks, copyright, [
+rama.sendButMessage(from, teks, copyright, [
 {buttonId: `${prefix}setprefix multi`, buttonText: {displayText: `ᴍᴜʟᴛɪ`},type: 1},
 {buttonId: `${prefix}setprefix nopref`, buttonText: {displayText: `ɴᴏᴘʀᴇғ`},type: 1},
 {buttonId: `${prefix}setprefix allpref`, buttonText: { displayText: `ᴀʟʟᴘʀᴇғ`},type: 1}]);
@@ -3548,7 +3564,7 @@ if(replyType === 'quoted') return setReply("Udah aktif")
 replyType = "quoted"
 setReply(`Berhasil mengubah set reply ke ${q}`)
 } else if (!q) {
-xdev.sendButMessage(from, `SETTING REPLY\n1. web\n2. troli\n3. mess\n4. vidio\n5. quoted\n`, `Silahkan pilih salah satu`, [
+rama.sendButMessage(from, `SETTING REPLY\n1. web\n2. troli\n3. mess\n4. vidio\n5. quoted\n`, `Silahkan pilih salah satu`, [
 {buttonId: `${prefix}setreply web`, buttonText: {displayText: `ᴡᴇʙ`},type: 1},
 {buttonId: `${prefix}setreply troli`, buttonText: {displayText: `ϙᴜᴏᴛᴇᴅ`},type: 1},
 {buttonId: `${prefix}setreply mess`, buttonText: { displayText: `ᴍᴇss`},type: 1}]);
@@ -3570,10 +3586,10 @@ case 'take':
 if (isImage || isQuotedImage|| isQuotedSticker) {
 try{
 let ahuh = args.join(' ').split('|')
-let satu = ahuh[0] !== '' ? ahuh[0] : `EXTREAM`
+let satu = ahuh[0] !== '' ? ahuh[0] : `R-BOT`
 let dua = typeof ahuh[1] !== 'undefined' ? ahuh[1] : ``
 let { Sticker, createSticker, StickerTypes } = require('wa-sticker-formatter')
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
+let media = await rama.downloadAndSaveMediaMessage(quoted)
 let jancok = new Sticker(media, {
 pack: satu, // The pack name
 author: dua, // The author name
@@ -3586,7 +3602,7 @@ background: '#FFFFFF00' // The sticker background color (only for full stickers)
 let stok = getRandom(".webp")
 let nono = await jancok.toFile(stok)
 let nah = fs.readFileSync(nono)
-await xdev.sendMessage(from,{sticker: nah},{quoted: dev})
+await rama.sendMessage(from,{sticker: nah},{quoted: dev})
 await fs.unlinkSync(stok)
 await fs.unlinkSync(media)
 } catch (err){
@@ -3625,7 +3641,7 @@ case 'ban':{
 if (!isGroupAdmins && !isOwner)return setReply('hanya admin dan owner') 
 if (q.startsWith("+")) {
 let woke = q.replace(new RegExp("[()+-/ +/]", "gi"), "") 
-let Name = await xdev.getName(woke)
+let Name = await rama.getName(woke)
 console.log(woke)
 if(cekBannedUser (woke, ban)) return setReply("Udah di ban kak")
 addBanned(Name,calender,  woke, ban)          
@@ -3633,7 +3649,7 @@ setReply( `Berhasil banned ${woke}`);
 } else  if(users){
 let Nomer =`${users.split("@")[0]}`
 if(cekBannedUser (Nomer, ban)) return setReply("Udah di ban kak")
-let Name = await xdev.getName(users)
+let Name = await rama.getName(users)
 //if(Nomer === ownerNumber[0]) return setReply("Ga mau")
 addBanned(Name,calender,  Nomer, ban)               
 setReply( `Berhasil banned ${users.split("@")[0]}`);
@@ -3709,7 +3725,7 @@ case 'luxury':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-a-3d-luxury-metallic-text-effect-for-free-1071.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3719,7 +3735,7 @@ case 'whitegold':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/elegant-white-gold-3d-text-effect-online-free-1070.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3729,7 +3745,7 @@ case 'lightglow':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-light-glow-sliced-text-effect-online-1068.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3740,7 +3756,7 @@ case 'arcane':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-text-effects-arcane-tv-series-online-1067.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3750,7 +3766,7 @@ case 'neonlight':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/neon-light-glitch-text-generator-online-1063.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3760,7 +3776,7 @@ case 'valentine':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-neon-light-on-brick-wall-online-1062.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3769,7 +3785,7 @@ case 'glowingneon':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/create-glowing-neon-light-text-effect-online-free-1061.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3779,7 +3795,7 @@ case 'colorled':{
 if(!q) return setReply(`Penggunaan ${prefix + command} teks`)
 setReply(mess.wait)
 textpro("https://textpro.me/color-led-display-screen-text-effect-1059.html", [`${q}`,])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
  }
 break
@@ -3793,7 +3809,7 @@ let teks1 = q.split("|")[0]
 let teks2 = q.split("|")[1]
 textpro("https://textpro.me/create-3d-retro-text-effect-online-free-1065.html", [
 `${teks1}`,`${teks2}`])
-.then((data) => xdev.sendMedia (from, data, dev, {caption: "Nih"}))
+.then((data) => rama.sendMedia (from, data, dev, {caption: "Nih"}))
 .catch((err) => console.log(err));
 }
 break
@@ -3813,7 +3829,7 @@ break
 case 'setfakeimg':{
 if (!dev.key.fromMe && !isOwner) return setReply(mess.only.ownerB)
 if(isImage || isQuotedImage){
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 await fse.copy(delb,`./stik/fake.jpeg`)
 fs.unlinkSync(delb)
 setReply(`Berhasil mengubah fake image`)
@@ -3826,7 +3842,7 @@ break
 case 'setthumb':{
 if (!itsMe && !isOwner) return setReply(mess.only.ownerB)
 if(isImage || isQuotedImage){
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 await fse.copy(delb,`./stik/thumb.jpeg`)
 fs.unlinkSync(delb)
 setReply(`Berhasil mengubah thumbnail`)
@@ -3842,7 +3858,7 @@ break;
 case 'setimgreply':{
 if (!itsMe && !isOwner) return setReply(mess.only.ownerB)
 if(isImage || isQuotedImage){
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 await fse.copy(delb,`./stik/reply.jpg`)
 fs.unlinkSync(delb)
 setReply(`Berhasil mengubah image reply`)
@@ -3858,7 +3874,7 @@ case 'setimginfo':{
 if (!dev.key.fromMe && !isOwner) return setReply(mess.only.ownerB)
 if (!itsMe && !isOwner) return setReply(mess.only.ownerB)
 if(isImage || isQuotedImage){
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 await fse.copy(delb,`./stik/bot.jpg`)
 fs.unlinkSync(delb)
 setReply(`Berhasil mengubah image pada infobotz`)
@@ -3872,7 +3888,7 @@ case 'addvn':{
 if (!dev.key.fromMe && !isOwner) return reply (mess.only.ownerB)
 if (!isQuotedAudio) return setReply('Reply vnnya')
 if (!q) return setReply('Nama audionya apa')
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 audionye.push(q)
 await fse.copy(delb,`./temp/audio/${q}.mp3`)
 fs.writeFileSync('./temp/vn.json', JSON.stringify(audionye))
@@ -3901,7 +3917,7 @@ case 'addstik':{
 if (!dev.key.fromMe && !isOwner) return reply (mess.only.owner)
 if (!isQuotedSticker) return setReply('Reply stiker nya')
 if (!q) return setReply('Nama sticker nya apa?')
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 setiker.push(q) 
 await fse.copy(delb, `./temp/stick/${q}.webp`)
 fs.writeFileSync('./temp/stick.json', JSON.stringify(setiker))
@@ -3953,10 +3969,10 @@ break
         
 case 'shutdown':
 if (!isOwner && !itsMe) return setReply(mess.only.owner)
-await xdev.sendMessage(from, {text: "_Shuting Down..._"})
+await rama.sendMessage(from, {text: "_Shuting Down..._"})
 await delay(3000)
-await xdev.sendMessage(from, {text: "_Succes_"})
-return await xdev.sendMessage(from, JSON.stringify(eval(process.exit())))
+await rama.sendMessage(from, {text: "_Succes_"})
+return await rama.sendMessage(from, JSON.stringify(eval(process.exit())))
 break
 
 case 'patrick':
@@ -3966,7 +3982,7 @@ await fetch('https://raw.githubusercontent.com/rashidsiregar28/data/main/patrik'
 .then(body => {
 let tod = body.split("\n");
 let pjr = tod[Math.floor(Math.random() * tod.length)];
-xdev.sendImageAsSticker(from, pjr, dev)
+rama.sendImageAsSticker(from, pjr, dev)
 }
 )
 break
@@ -3978,7 +3994,7 @@ await fetch('https://raw.githubusercontent.com/rashidsiregar28/data/main/gura')
 .then(body => {
 let tod = body.split("\n");
 let pjr = tod[Math.floor(Math.random() * tod.length)];
-xdev.sendImageAsSticker(from, pjr, dev)
+rama.sendImageAsSticker(from, pjr, dev)
 }
 )
 break
@@ -3990,8 +4006,8 @@ await fetch('https://raw.githubusercontent.com/rashidsiregar28/data/main/anjing'
 .then(body => {
 let tod = body.split("\n");
 let pjr = tod[Math.floor(Math.random() * tod.length)];
-//xdev.sendMedia (from, pjr, dev, {caption: "Nih"})
-xdev.sendImageAsSticker(from, pjr, dev)
+//rama.sendMedia (from, pjr, dev, {caption: "Nih"})
+rama.sendImageAsSticker(from, pjr, dev)
 }
 )
 break
@@ -4005,9 +4021,9 @@ setReply('Sukses')
 break
 
 case 'me': {
-let ppimg = await xdev.profilePictureUrl(sender, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
+let ppimg = await rama.profilePictureUrl(sender, 'image').catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
 
-let sol = await xdev.fetchStatus(sender)
+let sol = await rama.fetchStatus(sender)
 let stst = sol.status == 401 ? '' : sol.status
 let cekprm = ms(_prem.getPremiumExpired(sender, premium) - Date.now())
 let hituser = gethitUser(senderNumber, user)
@@ -4069,7 +4085,7 @@ const canvacord = require("canvacord");
   headerType: 4
   }
   
-  await xdev.sendMessage(from, buttonMessage)
+  await rama.sendMessage(from, buttonMessage)
   await fs.unlinkSync(foto)
           });
 
@@ -4097,68 +4113,63 @@ break
 
 case 'setmenu':
     if(!isOwner) return onlyOwner()
-    if ((args[0]) === 'katalog'|| (args[0]) === 'product' ){
-		setmenu = "katalog"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
-                      {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
-                      {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
-		} else  if ((args[0]) === 'lokasi2'|| (args[0]) === 'prolocation2' ){
+    if ((args[0]) === 'lokasi2'|| (args[0]) === 'prolocation2' ){
         setmenu = "location2"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
         } else if ((args[0]) === 'image'|| (args[0]) === 'img' ){
         setmenu = "image"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
         } else if ((args[0]) === 'lokasi' ){
         setmenu = "location"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
                     } else if ((args[0]) === 'image2'|| (args[0]) === 'img2' ){
         setmenu = "image2"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
         }else if ((args[0]) === 'pptx'){
         docType = "pptx"
         setmenu = "document"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
         } else if ((args[0]) === 'xlsx'){
         docType = "xlsx"
         setmenu = "document"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
     } else if ((args[0]) === 'zip'){
         docType = "zip"
         setmenu = "document"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
         } else if ((args[0]) === 'pdf'){
         docType = "pdf"
         setmenu = "document"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
     } else if ((args[0]) === 'docx'){
         docType = "docx"
         setmenu = "document"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
     } else if ((args[0]) === 'gif'){
         setmenu = "gif"
-        await xdev.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
+        await rama.sendButMessage(from, `Berhasil mengubah tampilan menu ke ${q}`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}profile`, buttonText: {displayText: `ᴘʀᴏғɪʟᴇ`,},type: 1},
                       {buttonId: `${prefix}menu`, buttonText: { displayText: `ᴍᴇɴᴜ`,},type: 1}],setQuoted);
     }  else if (!q) {
-                      xdev.sendButMessage(from, `SETTING MENU\n1.lokasi\n2.lokasi2\n3.img\n4.Pptx\n5.Xlsx\n6.Zip\n7.Pdf\n8.Docx\n9.gif`, `Silahkan pilih salah satu`, [
+                      rama.sendButMessage(from, `SETTING MENU\n1.lokasi\n2.lokasi2\n3.img\n4.Pptx\n5.Xlsx\n6.Zip\n7.Pdf\n8.Docx\n9.gif`, `Silahkan pilih salah satu`, [
                       {buttonId: `${prefix}setmenu katalog`, buttonText: {displayText: `ᴋᴀᴛᴀʟᴏɢ`},type: 1},
                       {buttonId: `${prefix}setmenu troli`, buttonText: {displayText: `ᴛʀᴏʟɪ`},type: 1},
                       {buttonId: `${prefix}setmenu lokasi`, buttonText: { displayText: `ʟᴏᴋᴀsɪ`},type: 1}],setQuoted);
@@ -4172,12 +4183,12 @@ case 'getppgc':
 if (!isGroup) return 
 setReply(mess.wait)
 try {
-var ppimg = await xdev.profilePictureUrl(from, 'image')
+var ppimg = await rama.profilePictureUrl(from, 'image')
 } catch (err) {
 console.log(err)
 var ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 }
-await xdev.sendMessage(from, { image: { url: ppimg }}, { quoted: dev })
+await rama.sendMessage(from, { image: { url: ppimg }}, { quoted: dev })
 break 
 
 
@@ -4186,30 +4197,30 @@ if (isGroup) {
 if(mentionByTag){
 console.log(mentionByTag[0])
 try {
-var ppimg = await xdev.profilePictureUrl(mentionByTag[0],"image")
+var ppimg = await rama.profilePictureUrl(mentionByTag[0],"image")
 } catch (err) {
 console.log(err)
 var ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 }
-await xdev.sendMessage(from, { caption: "Nih", image: { url: ppimg }}, { quoted: dev })
+await rama.sendMessage(from, { caption: "Nih", image: { url: ppimg }}, { quoted: dev })
 
 } else if (mentionByReply){
 try {
-var ppimg = await xdev.profilePictureUrl(mentionByReply, 'image')
+var ppimg = await rama.profilePictureUrl(mentionByReply, 'image')
 } catch (err) {
 console.log(err)
 var ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 }
-await xdev.sendMessage(from, { contextInfo: { forwardingScore: 2, isForwarded: true },caption: "Nih", image: { url: ppimg }}, { quoted: dev })
+await rama.sendMessage(from, { contextInfo: { forwardingScore: 2, isForwarded: true },caption: "Nih", image: { url: ppimg }}, { quoted: dev })
 } 
 } else if(!isGroup){
 try {
-var ppimg = await xdev.profilePictureUrl(from, 'image')
+var ppimg = await rama.profilePictureUrl(from, 'image')
 } catch (err) {
 console.log(err)
 var ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 }
-await xdev.sendMessage(from, {caption: "Nih",  image: { url: ppimg }}, { quoted: dev })
+await rama.sendMessage(from, {caption: "Nih",  image: { url: ppimg }}, { quoted: dev })
 }
 
 break
@@ -4233,7 +4244,7 @@ break
 case 'linkgc':{
 if (!isGroup) return reply(mess.OnlyGrup)
 if (!isBotGroupAdmins) return reply(mess.BotAdmin)
-var url = await xdev.groupInviteCode(from).catch(() => reply(mess.error.api))
+var url = await rama.groupInviteCode(from).catch(() => reply(mess.error.api))
 let asu = 'https://chat.whatsapp.com/'+url
 setReply(asu)
  }
@@ -4244,7 +4255,7 @@ if (!isGroup) return setReply(mess.only.group)
 if (!isGroupAdmins) return setReply(mess.only.admin)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
 if (args.length < 2) return reply(`Kirim perintah ${command} teks`)
-await xdev.groupUpdateSubject(from, q)
+await rama.groupUpdateSubject(from, q)
 .then( res => {
 setReply(`Sukses`)
 }).catch(() => setReply(mess.error.api))
@@ -4255,7 +4266,7 @@ if (!isGroup) return setReply(mess.only.group)
 if (!isGroupAdmins) return setReply(mess.only.admin)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
 if (args.length < 2) return reply(`Kirim perintah ${command} teks`)
-await xdev.groupUpdateDescription(from, q)
+await rama.groupUpdateDescription(from, q)
 .then( res => {
 setReply(`Sukses`)
 }).catch(() => reply(mess.error.api))
@@ -4267,10 +4278,10 @@ if (!isGroupAdmins) return setReply(mess.only.admin)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
 if (!q) return reply(`Kirim perintah ${command} _options_\nOptions : close & open\nContoh : ${command} close`)
 if (args[0] == "close") {
-xdev.groupSettingUpdate(from, 'announcement')
+rama.groupSettingUpdate(from, 'announcement')
 setReply(`Sukses mengizinkan hanya admin yang dapat mengirim pesan ke grup ini`)
 } else if (args[0] == "open") {
-xdev.groupSettingUpdate(from, 'not_announcement')
+rama.groupSettingUpdate(from, 'not_announcement')
 setReply(`Sukses mengizinkan semua peserta dapat mengirim pesan ke grup ini`)
 } else {
 setReply(`Kirim perintah ${command} _options_\nOptions : close & open\nContoh : ${command} close`)
@@ -4281,7 +4292,7 @@ case 'revoke':
 if (!isGroup) return setReply(mess.only.group)
 if (!isGroupAdmins) return setReply(mess.only.admin)
 if (!isBotGroupAdmins) return setReply(mess.only.Badmin)
-await xdev.groupRevokeInvite(from)
+await rama.groupRevokeInvite(from)
 .then( res => {
 setReply(`Sukses menyetel tautan undangan grup ini`)
 }).catch(() => reply(mess.error.api))
@@ -4352,7 +4363,7 @@ Internet OUT : *${netsOut}*
 let mok = [{"buttonId": `${prefix}infobotz`,"buttonText": {"displayText": `ɪɴғᴏ ʙᴏᴛᴢ`},"type": "RESPONSE"},
                     {"buttonId": `${prefix}sewa`,"buttonText": {"displayText": `sᴇᴡᴀ ʙᴏᴛᴢ`},"type": "RESPONSE"}]
 
-xdev.sendButLoc(from, teks,copyright,fs.readFileSync('./stik/thumb.jpeg'), mok)
+rama.sendButLoc(from, teks,copyright,fs.readFileSync('./stik/thumb.jpeg'), mok)
 } catch (err) {
 setReply(err)
 }
@@ -4364,21 +4375,21 @@ break
 case 'listonline': {
 let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : from
 let online = [...Object.keys(store.presences[id]), botNumber]
-xdev.sendText(from, 'List Online:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, dev, { mentions: online })
+rama.sendText(from, 'List Online:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, dev, { mentions: online })
 }
 break			
 			
 case 'wallpapermobile':{
 let link =`https://megayaa.herokuapp.com/api/akaneko/mobileWallpapers`
 let nana = await getBuffer(link)     
-xdev.sendImage(from, nana, "Nih",dev)
+rama.sendImage(from, nana, "Nih",dev)
 }
 break
 
 case 'wallpapers':{
 let link =`https://megayaa.herokuapp.com/api/akaneko/wallpapers`
 let nana = await getBuffer(link)     
-xdev.sendImage(from, nana, "Nih",dev)
+rama.sendImage(from, nana, "Nih",dev)
 }
 break
 
@@ -4388,7 +4399,7 @@ if (!emoji1) return setReply( `Example : ${prefix + command} 😅+🤔`)
 if (!emoji2) return setReply( `Example : ${prefix + command} 😅+🤔`)
 let anu = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
 for (let res of anu.results) {
-let encmedia = await xdev.sendImageAsSticker(from, res.url, dev)
+let encmedia = await rama.sendImageAsSticker(from, res.url, dev)
 //await fs.unlinkSync(encmedia)
 }
 }
@@ -4412,7 +4423,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji Apple")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[0].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	            
@@ -4422,7 +4433,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji Google")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[1].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	             
@@ -4432,7 +4443,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji Samsung")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[2].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	             
@@ -4442,7 +4453,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji Microsoft")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[3].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	             
@@ -4452,7 +4463,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji WhatsApp")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[4].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	
@@ -4462,7 +4473,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji Twitter")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[5].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	
@@ -4472,7 +4483,7 @@ if (!q) return setReply('emojinya?')
 setReply("Converting to emoji Facebook")
 emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[6].url}`
-xdev.sendImageAsSticker(from, teks, dev)
+rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	
@@ -4483,7 +4494,7 @@ if (!q) return setReply('emojinya?')
 await setReply("Converting to emoji joypixel")
 await emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[7].url}`
- xdev.sendImageAsSticker(from, teks, dev)
+ rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	       
@@ -4493,7 +4504,7 @@ if (!q) return setReply('emojinya?')
 await setReply("Converting to emoji openmoji")
 await emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[8].url}`
- xdev.sendImageAsSticker(from, teks, dev)
+ rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	      
@@ -4505,7 +4516,7 @@ if (!q) return setReply('emojinya?')
 await setReply("Converting to emoji emojidex")
 await emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[9].url}`
- xdev.sendImageAsSticker(from, teks, dev)
+ rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	      
@@ -4515,7 +4526,7 @@ if (!q) return setReply('emojinya?')
 await setReply("Converting to emoji messenger")
 await emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[10].url}`
- xdev.sendImageAsSticker(from, teks, dev)
+ rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	  
@@ -4525,7 +4536,7 @@ if (!q) return setReply('emojinya?')
 await setReply("Converting to emoji logitech")
 await emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[11].url}`
- xdev.sendImageAsSticker(from, teks, dev)
+ rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	  
@@ -4535,7 +4546,7 @@ if (!q) return setReply('emojinya?')
 await setReply("Converting to emoji mozila")
 await emoji.get(`${args[0]}`).then(emoji => {
 let teks = `${emoji.images[13].url}`
- xdev.sendImageAsSticker(from, teks, dev)
+ rama.sendImageAsSticker(from, teks, dev)
 })
 }
 break	  
@@ -4550,7 +4561,7 @@ if (!autoLevel) return setReply('Sudah Mati')
 autoLevel = false
 setReply("Sukses mematikan auto level!");
 } else if (!q) {
-xdev.sendButMessage(from, `MODE AUTO LEVEL`, `Silahkan pilih salah satu`, [
+rama.sendButMessage(from, `MODE AUTO LEVEL`, `Silahkan pilih salah satu`, [
  {buttonId: `${prefix}autolevel on`, buttonText: {displayText: On },type: 1},
  {buttonId: `${prefix}autolevel off`, buttonText: { displayText: Off },type: 1}], dev);
  }
@@ -4562,7 +4573,7 @@ case 'setbio':
  {
 if (!isOwner && !itsMe) return setReply("Khusus Owner")
 if (!q) return setReply(`Kirim perintah ${prefix+command} nama\n\nContoh : ${command} Paijo`)
-await xdev.setStatus(q)
+await rama.setStatus(q)
 await setReply(`Berhasil mengganti status bio ke *${q}*`)
 }
 break
@@ -4572,7 +4583,7 @@ case 'getsesi':{
 if(!isOwner) return setReply(mess.only.owner)
 await setReply(`Getting File ${sessionName}`)
 let sesi = await fs.readFileSync(`./${sessionName}.json`)
-await xdev.sendMessage(from, { document: sesi, mimetype: 'application/json', fileName: `${sessionName}.json` }, { quoted: dev })
+await rama.sendMessage(from, { document: sesi, mimetype: 'application/json', fileName: `${sessionName}.json` }, { quoted: dev })
 }
 break
 
@@ -4596,16 +4607,16 @@ break
 
 case 'listgc': {
 if(!isOwner) return onlyOwner()
-let getGroups = await xdev.groupFetchAllParticipating()
+let getGroups = await rama.groupFetchAllParticipating()
   //console.log(getGroups)
 let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
 let anu = groups.map(v => v.id)
 let teks = `⬣ *LIST GROUP CHAT*\n\nTotal Group : ${anu.length} Group\n\n`
 for (let i of anu) {
-let metadata2 = await xdev.groupMetadata(i)
+let metadata2 = await rama.groupMetadata(i)
 teks += `◉ Nama : ${metadata2.subject}\n◉ Owner : ${metadata2.owner !== undefined ? '@' + metadata2.owner.split`@`[0] : 'Tidak diketahui'}\n◉ ID : ${metadata2.id}\n◉ Dibuat : ${moment(metadata2.creation * 1000).tz('Asia/Jakarta').format('DD/MM/YYYY HH:mm:ss')}\n◉ Member : ${metadata2.participants.length}\n\n────────────────────────\n\n`
  }
-xdev.sendTextWithMentions(from, teks, dev)
+rama.sendTextWithMentions(from, teks, dev)
 }
 break
 
@@ -4618,7 +4629,7 @@ for (let i of anu) {
 let nama = store.messages[i].array[0].pushName
 teks += `◉ Nama : ${nama}\n◉ User : @${i.split('@')[0]}\n◉ Chat : https://wa.me/${i.split('@')[0]}\n\n────────────────────────\n\n`
 }
-xdev.sendTextWithMentions(from, teks, dev)
+rama.sendTextWithMentions(from, teks, dev)
  }
 break
 
@@ -4686,7 +4697,7 @@ let { dada } = require("../message/sewabot.js")
 let teks = dada(prefix, pushname, ucapanWaktu)      
 let gbutsan = [{buttonId: `${prefix}owner`, buttonText: {displayText: `ᴏᴡɴᴇʀ`}, type: 1},
 {buttonId: `KODE QR`, buttonText: {displayText: `ᴋᴏᴅᴇ ϙʀ`}, type: 1}]  
-xdev.sendButLoc(from, teks,copyright, fs.readFileSync('./stik/thumb.jpeg'), gbutsan)                          
+rama.sendButLoc(from, teks,copyright, fs.readFileSync('./stik/thumb.jpeg'), gbutsan)                          
 }
 break
 			
@@ -4731,7 +4742,7 @@ footer: copyright,
 buttons: buttons,
 headerType: 4
 }
-xdev.sendMessage(from, buttonMessage, { quoted: dev })
+rama.sendMessage(from, buttonMessage, { quoted: dev })
 }
 break
 
@@ -4781,7 +4792,7 @@ function randomInt(from, to) {
 	
 	
 	
- // xdev.math = xdev.math ? xdev.math : {}
+ // rama.math = rama.math ? rama.math : {}
   if (!q) return setReply( `
 ┌─〔 Mode 〕
 ├ ${Object.keys(modes).join('\n├ ')}
@@ -4798,15 +4809,15 @@ contoh:
 ${prefix}math hard
 `)
   let id = from
-  if (id in xdev.math) return setReply('Masih ada soal belum terjawab di chat ini')
+  if (id in rama.math) return setReply('Masih ada soal belum terjawab di chat ini')
   let math2 = genMath(mode)
-  xdev.math[id] = [
+  rama.math[id] = [
     await setReply(`Berapa hasil dari *${math2.str}*?\n\nTimeout: ${(math2.time / 1000).toFixed(2)} detik\nBonus Jawaban Benar: ${math2.bonus} XP`),
     math2, 4,
     setTimeout(async () => {
-      //if (xdev.math[id]) await xdev.sendButton(from, `Waktu habis!\nJawabannya adalah ${math2.result}`, '', `${math2.mode.toUpperCase()}`, `.math ${math2.mode}`, conn.math[id][0])
-        if (xdev.math[id]) await setReply(`Waktu habis!\nJawabannya adalah ${math2.result}\n\n${math2.mode.toUpperCase()}\n\nmath ${math2.mode}`)
-   delete xdev.math[id]
+      //if (rama.math[id]) await rama.sendButton(from, `Waktu habis!\nJawabannya adalah ${math2.result}`, '', `${math2.mode.toUpperCase()}`, `.math ${math2.mode}`, conn.math[id][0])
+        if (rama.math[id]) await setReply(`Waktu habis!\nJawabannya adalah ${math2.result}\n\n${math2.mode.toUpperCase()}\n\nmath ${math2.mode}`)
+   delete rama.math[id]
     }, math2.time)
   ]
 }
@@ -4862,7 +4873,7 @@ let txt = `*Arab* : ${res.result.data.text.arab}
 
 ( Q.S ${res.result.data.surah.name.transliteration.id} : ${res.result.data.number.inSurah} )`
 setReply(txt)
-xdev.sendMessage(from, {audio: { url: res.result.data.audio.primary }, mimetype: 'audio/mpeg'}, { quoted : dev })
+rama.sendMessage(from, {audio: { url: res.result.data.audio.primary }, mimetype: 'audio/mpeg'}, { quoted : dev })
 }
 break
 
@@ -4891,14 +4902,14 @@ text: args[0],
 key: { remoteJid: from, fromMe: true, id: quoted.id }
 }
 }
-xdev.sendMessage(from, reactionMessage)
+rama.sendMessage(from, reactionMessage)
 }
 break  
 
 case  'setgif':{
 if (!itsMe && !isOwner) return setReply(mess.only.ownerB)
 if(isVideo || isQuotedVideo){
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 await fse.copy(delb,`./stik/video.mp4`)
 fs.unlinkSync(delb)
 setReply(`Berhasil mengubah thumbnail`)
@@ -4914,53 +4925,53 @@ case 'setquoted':
     if ((args[0]) === 'ftoko'|| (args[0]) === 'product' ){
         if(Qoted === "ftoko") return setReply("Udah aktif")
         Qoted = "ftoko"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: ftoko})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: ftoko})
         } else if ((args[0]) === 'fkontak' ){
         if(Qoted === "fkontak") return setReply("Udah aktif")
         Qoted = "fkontak"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fkontak})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fkontak})
         } else if ((args[0]) === 'ftext'){
         if(Qoted === "ftext") return setReply("Udah aktif")
         Qoted = "ftext"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: ftext})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: ftext})
         } else if ((args[0]) === 'ftroli'){
         if(Qoted === "ftroli") return setReply("Udah aktif")
         Qoted = "ftroli"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: ftroli})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: ftroli})
         }else if ((args[0]) === 'fsticker' ){
         if(Qoted === "fsticker") return setReply("Udah aktif")
         Qoted = "fsticker"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fsticker})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fsticker})
         } else if ((args[0]) === 'fvn'){
         if(Qoted === "fvn") return setReply("Udah aktif")
         Qoted = "fvn"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fvn})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fvn})
         } else if ((args[0]) === 'floc'){
         if(Qoted === "floc") return setReply("Udah aktif")
         Qoted = "floc"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: floc})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: floc})
         } else if ((args[0]) === 'fvideo' ){
         if(Qoted === "fvideo") return setReply("Udah aktif")
         Qoted = "fvideo"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fvideo})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fvideo})
         } else if ((args[0]) === 'fgc'){
         if(Qoted === "fgc") return setReply("Udah aktif")
         Qoted = "fgc"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fgc})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fgc})
         } else if ((args[0]) === 'fgif'){
         if(Qoted === "fgif") return setReply("Udah aktif")
         Qoted = "fgif"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fgif})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fgif})
         }else if ((args[0]) === 'fimage'){
         if(Qoted === "fimage") return setReply("Udah aktif")
         Qoted = "fimage"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fimage})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: fimage})
         } else if ((args[0]) === 'dev'){
         if(Qoted === "dev") return setReply("Udah aktif")
         Qoted = "dev"
-        await xdev.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: dev})
+        await rama.sendMessage(from, {text: `Berhasil mengubah quoted ke ${q}`}, {quoted: dev})
         } else if (!q) {
-        xdev.sendButMessage(from, `SETTING QUOTED`, `Silahkan pilih salah satu`, [
+        rama.sendButMessage(from, `SETTING QUOTED`, `Silahkan pilih salah satu`, [
         {buttonId: `${prefix}setquoted ftoko`, buttonText: {displayText: `ғᴛᴏᴋᴏ`},type: 1},
         {buttonId: `${prefix}setquoted fkontak`, buttonText: {displayText: `ғᴋᴏɴᴛᴀᴋ`},type: 1},
         {buttonId: `${prefix}setquoted ftext`, buttonText: { displayText: `ғᴛᴇxᴛ`},type: 1}],dev);
@@ -4981,9 +4992,9 @@ console.log(Pe)
 if(!Pe ) return setReply("Masukan nomer target")
 if(Pe == Ownerin) return setReply("SendBug Gagal")
 await setReply("Sending...")
-await xdev.sendKatalog(Pe, virtex8(prefix), virtex8(prefix), thumb, {quoted: setQuoted})
-let a = await xdev.sendMessage(from, { react: { text: "0️", key: { remoteJid: from, fromMe: true, id: dev.id } } })
-xdev.sendMessage(Pe, { text: "awowkwkwk" }, { quoted: a });
+await rama.sendKatalog(Pe, virtex8(prefix), virtex8(prefix), thumb, {quoted: setQuoted})
+let a = await rama.sendMessage(from, { react: { text: "0️", key: { remoteJid: from, fromMe: true, id: dev.id } } })
+rama.sendMessage(Pe, { text: "awowkwkwk" }, { quoted: a });
 setReply(`Berhasil mengirim Bug ke Nomer ${Pe.split("@")[0]}`)
 } catch (err){
 console.log(err)
@@ -5056,7 +5067,7 @@ let json = await res.json()
 	//if (!json.result) throw `Media tidak ditemukan atau postingan mungkin diprivate`
 let url = json.videoUrl
 setReply('Sedang diproses...')
-if (url) await xdev.sendMedia (from, url, dev, {caption: "Nih"})
+if (url) await rama.sendMedia (from, url, dev, {caption: "Nih"})
 	//if (url) await conn.sendMessage(m.chat, url, MessageType.video, {mimetype: 'video/mp4', quoted: m, caption: wm})
 else setReply('Link download tidak ditemukan')
 } catch (e){
@@ -5064,7 +5075,7 @@ else setReply('Link download tidak ditemukan')
     let json = await res.json()
     if (!json.status) setReply( json)
     await setReply('Sedang di proses..')
-    await xdev.sendMedia (from, json.data[1].url, dev, {caption: "Nih"})
+    await rama.sendMedia (from, json.data[1].url, dev, {caption: "Nih"})
 }
 break
 
@@ -5109,7 +5120,7 @@ break
 case 'setfakegif':{
 if (!itsMe && !isOwner) return setReply(mess.only.ownerB)
 if(isImage || isQuotedImage){
-let delb = await xdev.downloadAndSaveMediaMessage(quoted)
+let delb = await rama.downloadAndSaveMediaMessage(quoted)
 await fse.copy(delb,`./stik/fake gif.jpeg`)
 fs.unlinkSync(delb)
 setReply(`Berhasil mengubah fake gif`)
@@ -5151,12 +5162,17 @@ break
     
 
 default:
-if (!isGroup && isCmd) {
-Nothing(toFirstCase(command), dash)
-setReply(`Command belum tersedia, coba beberapa hari kedepan yaa! _^`)
-} else if(isGroup && isCmd) {
-Nothing(toFirstCase(command), dash)
+if (isCmd) {
+await Nothing(toFirstCase(command), dash, allcommand)
+let matches = await stringSimilarity.findBestMatch(toFirstCase(command), allcommand)
+if (mentionByReply) {
+rama.sendButMessage(from, `Command ${prefix+command} tidak ditemukan\nMungkin yang kamu maksud adalah _${prefix+matches.bestMatch.target.toLowerCase()}_`, fake, [{buttonId: `${prefix+matches.bestMatch.target.toLowerCase()} ${mentionByReply} ${args[0]}`, buttonText: { displayText: `${matches.bestMatch.target.toLowerCase()}`},type: 1}],m);
+} else if(args[1] && args[0]){
+rama.sendButMessage(from, `Command ${prefix+command} tidak ditemukan\nMungkin yang kamu maksud adalah _${prefix+matches.bestMatch.target.toLowerCase()}_`, fake, [{buttonId: `${prefix+matches.bestMatch.target.toLowerCase()} ${args[0]} ${args[1]}`, buttonText: { displayText: `${matches.bestMatch.target.toLowerCase()}`},type: 1}],m);
+} else {
+rama.sendButMessage(from, `Command ${prefix+command} tidak ditemukan\nMungkin yang kamu maksud adalah _${prefix+matches.bestMatch.target.toLowerCase()}_`, fake, [{buttonId: `${prefix+matches.bestMatch.target.toLowerCase()} ${q}`, buttonText: { displayText: `${matches.bestMatch.target.toLowerCase()}`},type: 1}],m);
 }
+} 
 } //Akhir switch command
 
 
@@ -5164,36 +5180,108 @@ Nothing(toFirstCase(command), dash)
 
 
 if (isImage && autoSticker) {
+try{
 let WSF = require('wa-sticker-formatter')
 let wsf = false
 let mime = (dev.msg || dev).mimetype || ''
 if (/image/.test(mime)) {
-let img = await xdev.downloadAndSaveMediaMessage(quoted)
+let img = await rama.downloadAndSaveMediaMessage(quoted)
 wsf = new WSF.Sticker(img, {
-pack: packName,
+pushname, pack: pushname,
 type: WSF.StickerTypes.FULL,
-author: authorName,
+author: packName,
 crop: true,
 })
 }        
 if (wsf) {
 await wsf.build()
 const sticBuffer = await wsf.get()
-if (sticBuffer) await xdev.sendMessage(from, { sticker: sticBuffer }, {
+if (sticBuffer) await rama.sendMessage(from, { sticker: sticBuffer }, {
 quoted: dev,
 mimetype: 'image/webp',
 ephemeralExpiration: 86400
 })
 }
+}catch(err){
+
+}
 }
     
+//ketika ada yang invite/kirim link grup di chat pribadi
+//Di kasih ama Alyul
+if ((type === 'groupInviteMessage' || budy.includes('https://chat.whatsapp.com/') || budy.includes('Buka tautan ini')) && !m.isBaileys && !isGroup && !itsMe && !isOwner) {
+let { dada } = require("../message/sewabot.js")
+let teks = dada(prefix, pushname, ucapanWaktu)      
+let gbutsan = [{buttonId: `${prefix}owner`, buttonText: {displayText: `OWNER`}, type: 1},
+{buttonId: `KODE QR`, buttonText: {displayText: `KODE QR`}, type: 1}]  
+rama.sendButLoc(from, teks,copyright, fs.readFileSync('./stik/thumb.jpeg'), gbutsan)
+}
 
+///JikaJika ada yg kirim pesan "bot" botz akan respon✓
+if (budy.includes(`Bot`) || budy.includes(`bot`) ) { 
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("ACTIVE")
+}
 
+//Jika ada yg cek prefix bot akan merespon   
+if (budy.includes('ekprefix')){
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+rama.sendMessage(from, `Baik kak untuk prefix saat ini adalah : ( *${thePrefix}* )`, text, { quoted: setQuoted, contextInfo: forward })
+ }
 
+//Jika ada yang tag nomer owner
+if (isGroup && budy.includes(`${nomerOwner}`)) {
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+if (itsMe) return
+const kta =['Iya kak itu nomer owner ku kakak suka ya ama owner ku 🗿','Jangan tag owner ku sedang sibuk 😑','Kenapa kak tag owner ku?']
+const su = kta[Math.floor(Math.random() * kta.length)]
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+var but = [{buttonId: `${prefix}owner`, buttonText: { displayText: `NOMER OWNER` }, type: 1 }]
+rama.sendMessage(from, { text: su, buttons: but, footer: fake},{quoted: m})
+}
+  
+//Jika ada yg kirim pesan "Asalamualaikun" botz akan respon✓
+if (budy.includes(`ualaikum`) || budy.includes(`u'alaikum`) ) { 
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("Walaikumsalam")
+}
 
+///JikaJika ada yg kirim pesan "makasih" botz akan respon✓
+if (budy.includes(`akasih`) || budy.includes(`ksih`) ) { 
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("Sama-sama kak")
+}
 
+//Ketika ada yang minta save
+if(!isGroup && budy.startsWith("sv")){
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("Pahami dan baca peraturan bot,\nBot tidak menerima save nomer")
+}
 
+/*Ketika ada yang minta save
+if(!isGroup && budy.startsWith("save")){
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("Pahami dan baca peraturan bot,\nBot tidak menerima save nomer")
+}*/
 
+/*Ketika ada yang panggil bot
+if(!isGroup && budy.startsWith("Bot")){
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("Bot aktif kak")}                      
+  
+                       
+//Ketika ada yang panggil bot 
+if(!isGroup && budy.startsWith("bot")){
+if (cekSpam("NotCase",senderNumber, AntiSpam)) return 
+addSpam("NotCase",senderNumber, "10s", AntiSpam)
+setReply("Bot aktif kak")                      }*/
 
 
 
@@ -5216,12 +5304,11 @@ ephemeralExpiration: 86400
 
 
   
-
 } catch (err){
 //add to dashboard
 if(isCmd) Failed(toFirstCase(command), dash)
 let e = util.format(err)
-await setReply(`]─────「 *SYSTEM* 」─────[\n\n${e}\n\n© ${fake1}`)    
+await setReply(`]─────「 *SYSTEM-ERROR* 」─────[\n\n${e}\n\n© ${fake1}`)    
 
 if(checkError(err.message, JSON.parse(fs.readFileSync('./database/listerror.json')))) return
 addError(err.message, command, JSON.parse(fs.readFileSync('./database/listerror.json')))
@@ -5254,7 +5341,7 @@ var tetek = "No Query ❌"
 }
 
 if (isGroup && isBotGroupAdmins) {
-let linkgc = await xdev.groupInviteCode(from)
+let linkgc = await rama.groupInviteCode(from)
 var yeh = `https://chat.whatsapp.com/${linkgc}`
 } else if(isGroup && !isBotGroupAdmins){
 var yeh = `Botz Is Not Admin`
@@ -5272,15 +5359,15 @@ buttons: mok,
 headerType: 1
 }
 
-await xdev.sendMessage(Ownerin, tolol , {quoted: fkontak})
+await rama.sendMessage(Ownerin, tolol , {quoted: fkontak})
 
 if(!autoblockcmd){
-await xdev.sendMessage(from,{ text: "Laporan error telah dikirim ke Developer Botz"})
+await rama.sendMessage(from,{ text: "*REPORT* | has been received by the owner, the play report will not be responded to "})
 }
 
 if(isQuotedSticker || isQuotedImage || isQuotedVideo || isQuotedAudio ){
-let media = await xdev.downloadAndSaveMediaMessage(quoted)
-await xdev.sendMedia (Ownerin, media, dev, {caption: "System Error"})
+let media = await rama.downloadAndSaveMediaMessage(quoted)
+await rama.sendMedia (Ownerin, media, dev, {caption: "System Error"})
 await fs.unlinkSync(media)
 }
 
@@ -5289,17 +5376,35 @@ await fs.unlinkSync(media)
 
 
 
-} catch (e){
-e = String(e) 
+} catch (err){
+console.log(util.format(err))
+let e = String(err) 
 if (e.includes("this.isZero")) {return}
-if (e.includes("rate-overlimit")) 
+if (e.includes("rate-overlimit")) {
+if(!publik) return
+publik = false
+await rama.sendMessage(nomerOwner+"@s.whatsapp.net",{ 
+text: `Terjadi rate-overlimit
+Bot telah mengganti dari mode Public ke mode Self
+Untuk menghindari spam yang berlebihan,
+Silakan tunggu 1 menit hingga semua pesan
+telah terbaca oleh bot`
+})
+await setTimeout(() => {
+publik = true
+ rama.sendMessage(nomerOwner+"@s.whatsapp.net",{ 
+text: `Berhasil mengubah mode self ke mode public`
+})
+}, 60000)
+return
+}
 if (e.includes('Connection Closed')){ return }
 if (e.includes('Timed Out')){ return }
 console.log(color('Message Error : %s', 'white'), color(util.format(e), 'green'))
 if(Console){
-xdev.sendMessage(Ownerin, {text : util.format(e)})
+rama.sendMessage(Ownerin, {text : util.format(e)})
 }
-console.log(e)
+//console.log(e)
 }
 }
 
