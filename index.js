@@ -121,7 +121,7 @@ console.log(color(`]─`,`magenta`),`「`,  color(`EXTREAM`,`red`), `」`,  colo
 start(`1`,`Connecting...`)
 } else if (connection === 'open') {
 success(`1`,`[■■■■■■■■■■■■■■■] Connected`) 
-//await conn.sendMessage(`6285156137901@s.whatsapp.net`, {text: "Bot berhasil tersambung" })
+//await conn.sendMessage(`6282142108243@s.whatsapp.net`, {text: "Bot berhasil tersambung" })
 }
 
 }) 

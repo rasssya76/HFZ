@@ -1,5 +1,5 @@
 {
- "name": "AmeliaBotz-md",
+ "name": "R-BOT",
  "version": "4.3.0",
  "description": "Simple whatsapp bot with multi device.",
  "main": "index.js",
@@ -13,7 +13,7 @@
  "author": "Dittaz",
  "license": "MIT",
  "dependencies": {
-  "@adiwajshing/baileys": "^4.1.0",
+  "@adiwajshing/baileys": "^4.4.0",
   "@adiwajshing/keyed-db": "^0.2.4",
   "@bochilteam/scraper": "latest",
   "@phaticusthiccy/open-apis": "latest",

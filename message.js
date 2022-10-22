@@ -4,13 +4,13 @@ module.exports = async (senderNumber, prefix,command) => {
 
 
 global.mess = {
-wait: 'Tunggu sebentar ya kak',
-search: 'Searching...',
-scrap: '*Scrapping...*',
-success: 'Berhasil!',
-limit: `[❕] Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`,
-claimOn: `Kamu sudah melakukan claim sebelumnya, Harap claim lagi pada jam }.`,
-wrongFormat: 'Format salah, coba liat lagi di menu',
+wait: '_Wait is in process......_',
+search: '_Your request is being processed........_',
+scrap: '_Wait...._',
+success: 'Succes!',
+limit: `Your limit has run out`,
+claimOn: `Wait tomorrow`,
+wrongFormat: 'Format error ',
 
 error: {
 stick: 'bukan sticker itu:v',
@@ -20,7 +20,7 @@ link : "Link error!"
 },
 
 block:{
-Bowner: `Maaf kak command 「 *${command}* 」 telah di block oleh owner`,
+Bowner: `Maaf kak command [ *${command}* ] telah di block oleh owner`,
 Bsystem: `Command 「 *${command}* 」telah di block oleh system karena terjadi error`
 },
 
